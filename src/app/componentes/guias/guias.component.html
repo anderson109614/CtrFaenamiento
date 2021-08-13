@@ -1,0 +1,566 @@
+<div class="chit-chat-layer1">
+    <div class="col-md-12 chit-chat-layer1-left">
+        <div class="work-progres">
+            <div class="chit-chat-heading">
+                Gias
+            </div>
+            <div class="mail-toolbar clearfix">
+                <div class="row">
+                    <div class="col-md-3">
+
+                        <a class="btn btn_1 btn-default mrg5R" (click)="clkRedNew()">
+                            <i class="fa fa-plus-square"> </i>
+                        </a>
+
+
+                        <a class="btn btn_2 btn-default mrg5R" (click)="CargarListaGuias()">
+                            <i class="fa fa-refresh"> </i>
+                        </a>
+
+                    </div>
+                    <div class="col-md-3">
+
+                        <div class="dropdown dropdown-inbox">
+                            <a title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-cog icon_8"></i>
+                                <i class="fa fa-chevron-down icon_8"></i>
+                                <div class="ripple-wrapper"></div>
+                            </a>
+                            <ul class="dropdown-menu float-right">
+                                <li>
+                                    <div class="container">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="exampleRadios"
+                                                id="RadiosTodos" value="Todos" checked (change)="changeRadio($event)">
+                                            <label class="form-check-label" for="RadiosTodos">
+                                                Todos
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                </li>
+                                <li>
+                                    <div class="container">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="exampleRadios"
+                                                id="exampleMios" value="Mios" (change)="changeRadio($event)">
+                                            <label class="form-check-label" for="exampleMios">
+                                                Mios
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!--search-box-->
+                        <div class="search-box" style="width: 500px;">
+                            <form>
+                                <input type="text" placeholder="Search..." required="" (keyup)="busquedaGuias($event)">
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="table-responsive">
+                <div id="dtDynamicVerticalScrollExample" class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <!--table-wrapper-scroll-y my-custom-scrollbar -->
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Numero</th>
+                                <th>Origen</th>
+                                <th>Destino</th>
+
+                                <th>Autorizado a</th>
+                                <th>Vehiculo</th>
+                                <th>Total</th>
+                                <th>Valido Hasta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let guia of listaGias;index as i;">
+                                <td>{{guia.Numero}}</td>
+                                <td>{{guia.AreaOrigen.Codigo}}</td>
+                                <td>{{guia.AreaDestino.Codigo}}</td>
+                                <td>{{guia.PersonaAutorizada.Nombres}}</td>
+                                <td>{{guia.Vehiculo.Placa}}</td>
+                                <td>{{guia.TotalProductos}}</td>
+                                <td>{{guia.FechaFinaliza.date}}</td>
+                                <td>
+                                    <button class="btn btn-default" style="margin-right: 5px;"
+                                        (click)="cklActualizar(guia)">
+                                        <i class="fa fa-pencil-square-o icon_9"></i>
+                                    </button>
+                                    <button class="btn btn-default" (click)="clickEliminar(guia)">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+
+
+                                </td>
+                                <!--
+                                   <td><span class="label label-danger">in progress</span></td>
+                                <td><span class="badge badge-info">50%</span></td> 
+                                -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Editar Guia -->
+<div class="modal  " id="ModalGuia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl " style="width: 2000px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Guia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet-grid  panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3 row">
+                                            <label for="txtNumeroEmicion" class="col-sm-2 col-form-label">N°</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control " id="txtNumeroEmicion" value="{{guiaUso.Numero}}" (change)="changeValid()" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h3 class="panel-title">AUTORIZADO PARA MOVILIZAR</h3>
+                                    </div>
+                                    <div class="col-md-2 parpadea" style="text-align: right; color: red;display: none;"
+                                        id="divAutorizadoPar" data-toggle="modal" data-target="#ModalNuevaPersona">
+
+                                        <i class="fa fa-asterisk" id="parAutorizado" aria-hidden="true"
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="Añadir persona autorizada"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3 row">
+                                            <label for="txtTipoEmicion" class="col-sm-2 col-form-label">Tipo de
+                                                emision</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control required" id="txtTipoEmicion"
+                                                    (change)="changeValid()" value="{{guiaUso.TipoEmision}}">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label for="txtAutorizado"
+                                                class="col-sm-2 col-form-label">Autorizado</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtAutorizado"
+                                                    value="{{guiaUso.PersonaAutorizada.Nombres}}" disabled="true">
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3 row">
+                                            <label for="txtFechaEmicion" class="col-sm-2 col-form-label">Fecha
+                                                de
+                                                emisión</label>
+                                            <div class="col-sm-5">
+                                                <input class="form-control required" type="date" id="txtFechaEmicion"
+                                                    (change)="ChangeFechaEmicion()" (change)="changeValid()" value="{{fechaEmicion}}">
+
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input class="form-control required" type="time" id="txtHoraEmicion"
+                                                    (change)="ChangeHoraEmicion()" (change)="changeValid()" value="{{fechaEmicionHora}}">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="txtCCCI" class="col-sm-2 col-form-label">CC/CI/RUC</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtCCCI" value="{{guiaUso.PersonaAutorizada.Cedula}}"
+                                                    disabled="true">
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="portlet-grid panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 class="panel-title">Origen</h3>
+                                    </div>
+                                    <div class="col-md-6 parpadea" style="text-align: right; color: red;display: none;"
+                                        id="divOrigenPar" data-toggle="modal" data-target="#ModalNuevaArea">
+
+                                        <i class="fa fa-asterisk" id="parOrigen" aria-hidden="true"
+                                            data-toggle="tooltip" data-placement="top" title="Añadir Origen"></i>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3 row">
+                                            <label for="txtLugarOrigen" class="col-sm-2 col-form-label">Lugar
+                                                Origen</label>
+
+                                            <div class="col-sm-10">
+                                                <input class="form-control required" id="txtLugarOrigen"
+                                                    (change)="changeValid()" value="{{guiaUso.LugarOrigen}}">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtNombreOrigen" class="col-sm-2 col-form-label">Nombre</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtNombreOrigen"
+                                                    value="{{guiaUso.PersonaAutorizada.Nombres}}" disabled="true">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtxProvinciaOrigen"
+                                                class="col-sm-2 col-form-label">Provincia</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtxProvinciaOrigen"
+                                                    value="{{guiaUso.AreaOrigen.Provincia}}" disabled="true">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtCantonOrigen" class="col-sm-2 col-form-label">Cantón</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtCantonOrigen"
+                                                    value="{{guiaUso.AreaOrigen.Canton}}" disabled="true">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtParroquiaOrigen"
+                                                class="col-sm-2 col-form-label">Parroquia</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtParroquiaOrigen"
+                                                    value="{{guiaUso.AreaOrigen.Parroquia}}" disabled="true">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtSitioKM" class="col-sm-2 col-form-label">Sitio/KM</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtSitioKM" value="{{guiaUso.AreaOrigen.Sitio}}"
+                                                    disabled="true">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtCodigoOrigen" class="col-sm-2 col-form-label">CODIGO
+                                                ÁREA</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtCodigoOrigen"
+                                                    value="{{guiaUso.AreaOrigen.Codigo}}" disabled="true">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="portlet-grid panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Destino</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="mb-3 row">
+                                        <label for="txtFinalidadDestino"
+                                            class="col-sm-2 col-form-label">Finalidad</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtFinalidadDestino"
+                                                value="{{guiaUso.AreaDestino.Finalidad}}" disabled="true">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtDescripcionDestino"
+                                            class="col-sm-2 col-form-label">Descipción</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtDescripcionDestino"
+                                                value="{{guiaUso.AreaDestino.Descripcion}}" disabled="true">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtProvinciaDestino"
+                                            class="col-sm-2 col-form-label">Provincia</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtProvinciaDestino"
+                                                value="{{guiaUso.AreaDestino.Provincia}}" disabled="true">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtCantonDestino" class="col-sm-2 col-form-label">Cantón</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtCantonDestino"
+                                                value="{{guiaUso.AreaDestino.Canton}}" disabled="true">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtParroquiaDetino"
+                                            class="col-sm-2 col-form-label">Parroquia</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtParroquiaDetino"
+                                                value="{{guiaUso.AreaDestino.Parroquia}}" disabled="true">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtSitioKMDestino" class="col-sm-2 col-form-label">Sitio/KM</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtSitioKMDestino"
+                                                value="{{guiaUso.AreaDestino.Sitio}}" disabled="true">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtCodigoDestino" class="col-sm-2 col-form-label">CÓDIGO
+                                            ÁREA</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtCodigoDestino"
+                                                value="{{guiaUso.AreaDestino.Codigo}}" disabled="true">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-info">
+                    Datos de movilización
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="portlet-grid panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Datos del conductor</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="mb-3 row">
+                                        <label for="txtCCCIConductor" class="col-sm-2 col-form-label">CC/CI</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtCCCIConductor"
+                                                value="{{guiaUso.PersonaAutorizada.Cedula}}" disabled="true">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtNombreConductor" class="col-sm-2 col-form-label">Nombre</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtNombreConductor"
+                                                value="{{guiaUso.PersonaAutorizada.Nombres}}" disabled="true">
+                                        </div>
+                                    </div>
+                                    <br>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="portlet-grid panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 class="panel-title">Datos de vehiculo</h3>
+                                    </div>
+                                    <div class="col-md-6 parpadea" style="text-align: right; color: red;display: none;"
+                                        id="divVehiculoPar" data-toggle="modal" data-target="#ModalNuevoVehiculo">
+
+                                        <i class="fa fa-asterisk" id="parVehiculo" aria-hidden="true"
+                                            data-toggle="tooltip" data-placement="top" title="Añadir Vehiculo"></i>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="mb-3 row">
+                                        <label for="txtMedioTransporte" class="col-sm-2 col-form-label">Medio
+                                            Transporte</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtMedioTransporte"
+                                                value="{{guiaUso.Vehiculo.Tipo}}" disabled="true">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtPlaca" class="col-sm-2 col-form-label">Placa</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtPlaca" value="{{guiaUso.Vehiculo.Placa}}"
+                                                disabled="true">
+                                        </div>
+                                    </div>
+                                    <br>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="portlet-grid  panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Validez del Certificado</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="mb-3 row">
+                                    <label for="txtFechaEmicion" class="col-sm-2 col-form-label">Inicia</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control required" type="date" id="txtFechaInicia"
+                                            (change)="changeValid()" value="{{fechaInicio}}">
+
+                                    </div>
+                                    <div class="col-sm-5"> 
+                                        <input class="form-control required" type="time" id="txtHoraInia"
+                                            (change)="changeValid()" value="{{fechaInicioHora}}">
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="mb-3 row">
+                                    <label for="txtFechaFinaliza" class="col-sm-2 col-form-label">Finaliza</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" type="date" id="txtFechaFinal"
+                                            value="{{fechaFinaliza}}" disabled="true">
+
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" type="time" id="txtFechaFinalHora"
+                                            value="{{fechaFinalizaHora}}" disabled="true">
+
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="portlet-grid panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Ruta a Seguir</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="mb-3 row">
+                                        <label for="txtRuta" class="col-sm-2 col-form-label">Ruta</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control required" id="txtRuta" value="{{guiaUso.Ruta}}" (change)="changeValid()">
+                                        </div>
+                                    </div>
+                                    <br>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="portlet-grid  panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h3 class="panel-title">Tipo de Producto a Movilizar</h3>
+                                    </div>
+                                    <div class="col-md-3" style="text-align: right;">
+                                        
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="panel-body">
+
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Producto</th>
+                                                <th>Catidad</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let Det of guiaUso.listaDetalles;index as i;">
+                                                <td>{{Det.Producto}}</td>
+                                                <td>{{Det.Cantidad}}</td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td>Total Productos</td>
+                                                <td>{{guiaUso.TotalProductos}}</td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" (click)="clkActualizar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

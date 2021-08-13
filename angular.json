@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "CtrFaenamiento"
+  "defaultProject": "CtrFaenamiento",
+  "cli": {
+    "analytics": false
+  }
 }

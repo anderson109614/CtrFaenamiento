@@ -1,0 +1,5 @@
+ng g m pages/home -m=app --route home
+ng g m pages/login -m=app --route login
+npm install local-storage --save
+
+npm install angular2-qrscanner --save
