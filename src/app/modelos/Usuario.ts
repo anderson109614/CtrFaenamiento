@@ -4,7 +4,7 @@ export interface Usuario {
     Nombres: string,
     Apellidos: string,
     Imagen: string,
-    FechaCreacion: string,
+    FechaCreacion: {date:string},
     Estado: string,
     IdPerfil: string,
     NombrePerfil: string,

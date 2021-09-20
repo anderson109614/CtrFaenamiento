@@ -50,6 +50,7 @@ export class PerfilComponent implements OnInit {
       Nombres:TxtNombre,
       Apellidos:TxtApellidos,
       Contrasena:TxtContraseña,
+      IdPerfil:this.usuarioUso.IdPerfil,
       img:this.base64textStringG
     }
 

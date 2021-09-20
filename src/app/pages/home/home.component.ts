@@ -2,6 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { Router } from '@angular/router';
 import {EncriptadoService} from '../../servicios/encriptado.service';
+import { UsuariosService } from 'src/app/servicios/usuarios.service';
+import {Usuario} from '../../modelos/Usuario'
 declare var $: any;
 @Component({
   selector: 'app-home',
@@ -11,11 +13,13 @@ declare var $: any;
 
 export class HomeComponent implements OnInit {
   
-  constructor(@Inject(SESSION_STORAGE) private storage: StorageService,  public router: Router,private encriSer:EncriptadoService) { }
-  usuraioUso:any;
+  constructor(@Inject(SESSION_STORAGE) private storage: StorageService,  public router: Router,private encriSer:EncriptadoService,private usrSer:UsuariosService) { }
+  usuraioUso:Usuario={Apellidos:'',Cedula:'',Estado:'',FechaCreacion:'',IdPerfil:'',IdUsuario:'',Imagen:'',NombrePerfil:'',Nombres:'',token:''};
+  permisos:any=[];
   ngOnInit(): void {
     this.ScriptInicioTemplate();
     this.validarUsuario();
+    this.getPerfil();
 
   }
   ScriptInicioTemplate() {
@@ -52,6 +56,28 @@ export class HomeComponent implements OnInit {
       this.usuraioUso=usr;
       console.log('uso',this.usuraioUso);
     }
+  }
+  getPerfil(){
+    this.usrSer.getPerfil(this.usuraioUso.IdPerfil, this.usuraioUso.token).subscribe(
+      res => {
+        console.log(res);
+        if (res.estado) {
+          var peril = this.encriSer.desencriptar(res.res, false);
+          this.permisos=peril[0].Permisos;
+
+          console.log(this.permisos,peril,);
+          
+
+        }
+      },
+      err => {
+
+        console.log(err)
+      }
+    );
+  }
+  exitsRuta(name:string){
+    return this.permisos.findIndex((element:any) => element.Nombre ==name)!=-1;
   }
   clickCerrarSecion(){
     this.storage.remove('Usuario');

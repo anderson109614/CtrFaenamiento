@@ -1,1 +1,268 @@
-<p>usuarios works!</p>
+
+
+<div class="chit-chat-layer1">
+    <div class="col-md-12 chit-chat-layer1-left">
+        <div class="work-progres">
+            <div class="chit-chat-heading">
+                Usuarios
+            </div>
+            <div class="mail-toolbar clearfix">
+                <div class="row">  
+
+                    <div class="col-md-3">
+
+                        <a class="btn btn_1 btn-default mrg5R" (click)="clkRedNew()">
+                            <i class="fa fa-plus-square"> </i>
+                        </a>
+
+
+                        <a class="btn btn_2 btn-default mrg5R" (click)="lisataUsuarios()">
+                            <i class="fa fa-refresh"> </i>
+                        </a>
+
+                    </div>
+                   
+                    <div class="col-md-6">
+                        <!--search-box-->
+                        <div class="search-box" style="width: 500px;">
+                            <form>
+                                <input type="text" placeholder="Search..." required="" (keyup)="busquedaUsuarios($event)">
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="table-responsive">
+                <div id="dtDynamicVerticalScrollExample" class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <!--table-wrapper-scroll-y my-custom-scrollbar -->
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Cedula</th>
+                                <th>Nombres</th>
+                                <th>Fecha de Creacion</th>
+
+                                <th>Perfil</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let usuarios of listaUsuarios;index as i;">
+                                <td>  <a ><img src="{{usuarios.Imagen}}" alt="assets/images/user.jpg" width="50px" height="50px" style="border-radius: 50%;" ></a></td>
+                                <td>{{usuarios.Cedula}}</td>
+                                <td>{{usuarios.Nombres}} {{usuarios.Apellidos}}</td>
+                                <td>{{usuarios.FechaCreacion.date}}</td>
+                                <td>{{usuarios.NombrePerfil}}</td>
+                                
+                                <td>
+                                    <button class="btn btn-default" style="margin-right: 5px;"
+                                        (click)="cklActualizar(usuarios)">
+                                        <i class="fa fa-pencil-square-o icon_9"></i>
+                                    </button>
+                                    <button class="btn btn-default" (click)="clickEliminar(usuarios)">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+
+
+                                </td>
+                                <!--
+                                   <td><span class="label label-danger">in progress</span></td>
+                                <td><span class="badge badge-info">50%</span></td> -->
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Editar Guia -->
+<div class="modal  " id="ModalUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl " >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="inbox">
+                           
+                            <div class="col-md-12 compose-right">
+                                <div class="mail-profile">
+                                    <div class="mail-pic">
+                                        <a ><img src="{{this.usuarioSelec.Imagen}}" alt="assets/images/user.jpg" width="100px" height="100px" style="border-radius: 50%;" ></a>
+                                    </div>
+                                    <div class="mailer-name">
+                                        <h5><a >{{usuarioSelec.Cedula}}-{{usuarioSelec.NombrePerfil}}</a></h5>
+                                        <h6><a ></a></h6>
+                                        <div class="form-group">
+                                            <div class="btn btn-default btn-file">
+                                                <i class="fa fa-paperclip"> </i> Seleccionar
+                                                <input type="file" name="Selecionar" id="FileImagenUsr" (change)="onUploadChange($event)"
+                                                accept=".png, .jpg, .jpeg">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                                <div class="inbox-details-default">
+                    
+                                    <div class="inbox-details-body">
+                                        <div class="com-mail">
+                                            <div class="mb-3">
+                                                <label for="txtCedula" class="form-label">Cedula</label>
+                                                <input class="form-control" id="txtCedula" value="{{usuarioSelec.Cedula}}" >
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtNombres" class="form-label">Nombres</label>
+                                                <input class="form-control" id="txtNombres" value="{{usuarioSelec.Nombres}}" >
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="txtApellidos" class="form-label">Apellidos</label>
+                                                <input class="form-control" id="txtApellidos" value="{{usuarioSelec.Apellidos}}" >
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <label for="SelectPerfil" class="form-label">Perfil</label>
+                                                <select class="form-control" id="SelectPerfil" value="{{usuarioSelec.IdPerfil}}" >
+                                                  
+                                                  <option value="{{perfil.IdPerfil}}"  *ngFor="let perfil of listaPerfiles">{{perfil.Nombre}}</option>
+                                                  
+                                                </select>
+                                              </div>
+                                              
+                                            <div class="mb-3">
+                                                <label for="txtContraseña" class="form-label">Contraseña</label>
+                                                <input class="form-control" id="txtContraseña" type="password" >
+                                            </div>
+                    
+                                            <br>
+                    
+                    
+                    
+                    
+                                           
+                                        </div>
+                    
+                                    </div>
+                                </div>
+                            </div>
+                    
+                        </div>
+                    </div>
+                </div>
+
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" (click)="clkGuardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Nuevo Guia -->
+<div class="modal  " id="ModalUsuarioNew" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl " >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="inbox">
+                           
+                            <div class="col-md-12 compose-right">
+                                <div class="mail-profile">
+                                    <div class="mail-pic">
+                                        <a ><img src="{{this.usuarioSelec.Imagen}}" alt="user" width="100px" height="100px" style="border-radius: 50%;" ></a>
+                                    </div>
+                                    <div class="mailer-name">
+                                        <h5><a >-</a></h5>
+                                        <h6><a ></a></h6>
+                                        <div class="form-group">
+                                            <div class="btn btn-default btn-file">
+                                                <i class="fa fa-paperclip"> </i> Seleccionar
+                                                <input type="file" name="Selecionar" id="FileImagenUsr" (change)="onUploadChange($event)"
+                                                accept=".png, .jpg, .jpeg">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                                <div class="inbox-details-default">
+                    
+                                    <div class="inbox-details-body">
+                                        <div class="com-mail">
+                                            <div class="mb-3">
+                                                <label for="txtCedula" class="form-label">Cedula</label>
+                                                <input class="form-control" id="txtCedulaNew" value="{{usuarioSelec.Cedula}}" >
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtNombres" class="form-label">Nombres</label>
+                                                <input class="form-control" id="txtNombresNew" value="{{usuarioSelec.Nombres}}" >
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="txtApellidos" class="form-label">Apellidos</label>
+                                                <input class="form-control" id="txtApellidosNew" value="{{usuarioSelec.Apellidos}}" >
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <label for="SelectPerfil" class="form-label">Perfil</label>
+                                                <select class="form-control" id="SelectPerfilNew" value="{{usuarioSelec.IdPerfil}}" >
+                                                  
+                                                  <option value="{{perfil.IdPerfil}}"  *ngFor="let perfil of listaPerfiles">{{perfil.Nombre}}</option>
+                                                  
+                                                </select>
+                                              </div>
+                                              
+                                            <div class="mb-3">
+                                                <label for="txtContraseña" class="form-label">Contraseña</label>
+                                                <input class="form-control" id="txtContraseñaNew" type="password" >
+                                            </div>
+                    
+                                            <div class="mb-3">
+                                                <label for="txtContraseña" class="form-label">Confirmar Contraseña</label>
+                                                <input class="form-control" id="txtConfirmarContraseñaNew" type="password" >
+                                            </div>
+                                            <br>
+                    
+                    
+                    
+                    
+                                           
+                                        </div>
+                    
+                                    </div>
+                                </div>
+                            </div>
+                    
+                        </div>
+                    </div>
+                </div>
+
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" (click)="clkGuardarNewUser()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

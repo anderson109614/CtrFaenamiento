@@ -10,6 +10,7 @@ import { Vehiculo } from '../../modelos/Vehiculo';
 import { Detalle } from '../../modelos/Detalle';
 import { Guia } from '../../modelos/Guia';
 import { Fecha } from '../../modelos/fecha';
+import { UsuariosService } from 'src/app/servicios/usuarios.service';
 declare var $: any;
 @Component({
   selector: 'app-guias',
@@ -40,10 +41,10 @@ export class GuiasComponent implements OnInit {
     , Ruta: ''
     , TipoEmision: ''
     , TotalProductos: 0
-    , Usuario: { Nombres: '', Cedula: '', Apellidos: '', Estado: '', FechaCreacion: '', IdPerfil: '', IdUsuario: '', Imagen: '', NombrePerfil: '', token: '' }
+    , Usuario: { Nombres: '', Cedula: '', Apellidos: '', Estado: '', FechaCreacion: {date:''}, IdPerfil: '', IdUsuario: '', Imagen: '', NombrePerfil: '', token: '' }
     , listaDetalles: []
   };
-  constructor(@Inject(SESSION_STORAGE) private storage: StorageService, public router: Router, private guiasSer: GuiasService, private encriSer: EncriptadoService) { }
+  constructor(@Inject(SESSION_STORAGE) private storage: StorageService, public router: Router, private guiasSer: GuiasService, private encriSer: EncriptadoService,private usrSer:UsuariosService) { }
 
   ngOnInit(): void {
     this.cargarUsuarioUso();
@@ -53,6 +54,19 @@ export class GuiasComponent implements OnInit {
   cargarUsuarioUso() {
     var us = this.storage.get('Usuario');
     this.usuarioUso = us;
+    this.usrSer.verificarPermisos(this.usuarioUso.IdPerfil,'guias', this.usuarioUso.token).subscribe(
+      res => {
+        console.log(res);
+        if (!res.estado) {
+          this.router.navigateByUrl('/home');
+
+        }
+      },
+      err => {
+
+        console.log('mm',err);
+      }
+    );
 
   }
   CargarListaGuias() {
@@ -287,7 +301,7 @@ export class GuiasComponent implements OnInit {
       , Ruta: ''
       , TipoEmision: ''
       , TotalProductos: 0
-      , Usuario: { Nombres: '', Cedula: '', Apellidos: '', Estado: '', FechaCreacion: '', IdPerfil: '', IdUsuario: '', Imagen: '', NombrePerfil: '', token: '' }
+      , Usuario: { Nombres: '', Cedula: '', Apellidos: '', Estado: '', FechaCreacion: {date:''}, IdPerfil: '', IdUsuario: '', Imagen: '', NombrePerfil: '', token: '' }
       , listaDetalles: []
     }
     this.fechaEmicion = "";

@@ -4,7 +4,7 @@ ob_start();
 include("../coneccion.php");
 $dbConn =  connect($db);
 include("../Encript.php");
-
+/*
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     try {
         //if (isset($_GET['nom'])) {
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         echo 'Excepción capturada: ',  $e->getMessage(), "\n";
     }
 }
-
+*/
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     

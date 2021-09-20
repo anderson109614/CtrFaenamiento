@@ -12,6 +12,9 @@ import { NgQrScannerModule } from 'angular2-qrscanner';
 import { PerfilComponent } from './componentes/perfil/perfil.component';
 import { UsuariosComponent } from './componentes/usuarios/usuarios.component';
 import { NewguiaComponent } from './componentes/newguia/newguia.component';
+import { AreasComponent } from './componentes/areas/areas.component';
+import { PersonasComponent } from './componentes/personas/personas.component';
+import { VehiculosComponent } from './componentes/vehiculos/vehiculos.component';
 
 
 @NgModule({
@@ -20,7 +23,10 @@ import { NewguiaComponent } from './componentes/newguia/newguia.component';
    
     PerfilComponent,
     UsuariosComponent,
-    NewguiaComponent
+    NewguiaComponent,
+    AreasComponent,
+    PersonasComponent,
+    VehiculosComponent
   ],
   imports: [
     BrowserModule,

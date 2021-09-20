@@ -10,6 +10,7 @@ import { Persona } from '../../modelos/Persona';
 import { Vehiculo } from '../../modelos/Vehiculo';
 import { Detalle } from '../../modelos/Detalle';
 import { Guia } from '../../modelos/Guia';
+import { UsuariosService } from 'src/app/servicios/usuarios.service';
 declare var $: any;
 @Component({
     selector: 'app-newguia',
@@ -34,7 +35,8 @@ export class NewguiaComponent implements OnInit {
     vehiculouso: Vehiculo = { IdVehiculo: '', IdPersonaPer: '', Placa: '', Tipo: '' }
     listaDetalles: Detalle[] = [];
     valtotalLista:number=0;
-    constructor(@Inject(SESSION_STORAGE) private storage: StorageService, public router: Router, private guiasSer: GuiasService, private encriSer: EncriptadoService) {
+    constructor(@Inject(SESSION_STORAGE) private storage: StorageService, public router: Router, private guiasSer: GuiasService, private encriSer: EncriptadoService
+    ,private usrSer:UsuariosService) {
 
     }
     @ViewChild(QrScannerComponent, { static: false }) qrScannerComponent!: QrScannerComponent;
@@ -49,7 +51,20 @@ export class NewguiaComponent implements OnInit {
     }
     cargarUsuarioUso() {
         var us = this.storage.get('Usuario');
-        this.usuarioUso = us
+        this.usuarioUso = us;
+        this.usrSer.verificarPermisos(this.usuarioUso.IdPerfil,'newguia', this.usuarioUso.token).subscribe(
+            res => {
+              console.log(res);
+              if (!res.estado) {
+                this.router.navigateByUrl('/home');
+      
+              }
+            },
+            err => {
+      
+              console.log('mm',err);
+            }
+          );
 
     }
     inicaiarCamara() {

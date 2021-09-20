@@ -5,53 +5,179 @@ include("../Encript.php");
 include("../Validacion.php");
 $dbConn =  connect($db);
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && $auth) {
-    try {
-        //if (isset($_GET['nom'])) {
-            $sql = "SELECT us.IdUsuario
-            ,us.Cedula
-            ,us.Nombres
-            ,us.Apellidos
-            ,us.Imagen
-            ,us.FechaCreacion
-            ,us.Estado
-            ,us.IdPerfil
-            ,pe.Nombre as NombrePerfil
-            FROM Usuarios us,Perfiles pe
-            WHERE  us.IdPerfil=pe.IdPerfil";
-            $params = array();
-            $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-            $stmt = sqlsrv_query( $dbConn, $sql , $params, $options );
-            $row_count = sqlsrv_num_rows( $stmt );
- 
-            $pila=array();
-        if ($row_count === false)
-            echo 'Excepción capturada: ',  'Error al obtener datos.', "\n"; 
-        else
+    
             
-            while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
-                array_push($pila, $row);
+             try {
+                if (isset($_GET['id'])) {
+                    $sql = "SELECT us.IdUsuario
+                    ,us.Cedula
+                    ,us.Nombres
+                    ,us.Apellidos
+                    ,us.Imagen
+                    ,us.FechaCreacion
+                    ,us.Estado
+                    ,us.IdPerfil
+                    ,pe.Nombre as NombrePerfil
+                    FROM Usuarios us,Perfiles pe
+                    WHERE  us.IdPerfil=pe.IdPerfil
+                    AND us.Estado !=?
+                    AND IdUsuario=?
+                    ";
+                    $decri= decrypt($_GET['id']);
+                    $obj= json_decode($decri, true);
+                    $params = array('Eliminado',$obj);
+                    $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                    $stmt = sqlsrv_query( $dbConn, $sql , $params, $options );
+                    $row_count = sqlsrv_num_rows( $stmt );
+         
+                    $pila=array();
+                    
+                    
+                    //$res['estado']=$row_count;
+                    if ($row_count === false || $row_count==0){
+                         $res['estado']=false;
+                         $res['mensaje']=sqlsrv_errors();
+                         $res['res']=$obj;
+                    }else{
+                        while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
+                            $row['Permisos']=getPermisos($row['IdPerfil'],$dbConn);
+                            array_push($pila, $row);
+                        }
+        
+                        $res['res']= encrypt($pila,false);
+                    }
+                    header("HTTP/1.1 200 OK");
+                    sqlsrv_close($dbConn);        
+                    echo json_encode($res);
+                
+            
+                }else{
+                    $sql = "SELECT us.IdUsuario
+                    ,us.Cedula
+                    ,us.Nombres
+                    ,us.Apellidos
+                    ,us.Imagen
+                    ,us.FechaCreacion
+                    ,us.Estado
+                    ,us.IdPerfil
+                    ,pe.Nombre as NombrePerfil
+                    FROM Usuarios us,Perfiles pe
+                    WHERE  us.IdPerfil=pe.IdPerfil
+                    AND us.Estado !=?
+                   ";
+                    
+                    $params = array('Eliminado');
+                    $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                    $stmt = sqlsrv_query( $dbConn, $sql , $params, $options );
+                    $row_count = sqlsrv_num_rows( $stmt );
+         
+                    $pila=array();
+                    
+                    
+                    //$res['estado']=$row_count;
+                    if ($row_count === false || $row_count==0){
+                         $res['estado']=false;
+                         $res['mensaje']=sqlsrv_errors();
+                         $res['res']=$obj;
+                    }else{
+                        while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
+                            $row['Imagen']=OptenerImagen($row['Imagen']);
+                            array_push($pila, $row);
+                        }
+        
+                        $res['res']= encrypt($pila,false);
+                    }
+                    header("HTTP/1.1 200 OK");
+                    sqlsrv_close($dbConn);        
+                    echo json_encode($res);
+        
+                }  
+            } catch (Exception $e) {
+                $res['estado']=false;
+                $res['mensaje']=$e->getMessage();
+                echo json_encode($res);
             }
             
+}
+function OptenerImagen($name){
+    $rutaImagen ="";
+    if($name!=""){
+        $rutaImagen = __DIR__ . "/images/".$name;
+        
+    }else{
+        $rutaImagen = __DIR__ . "/images/user.jpg";
+    }
+    $contenidoBinario = file_get_contents($rutaImagen);
+    $imagenComoBase64 = base64_encode($contenidoBinario);
+    return 'data:image/jpg;base64,'.$imagenComoBase64;
+    
+
+}
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $auth) {
+    
+    try {
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        $decri= decrypt($input['value']);
+        $obj= json_decode($decri, false);
+        
+        $sql = "INSERT INTO Usuarios
+        (Cedula
+        ,Nombres
+        ,Apellidos
+        ,FechaCreacion
+        ,Estado
+        ,IdPerfil
+        )
+  VALUES
+        (?
+        ,?
+        ,?
+        ,getdate()
+        ,'Activo'
+        ,?
+        );
+        SELECT SCOPE_IDENTITY() AS id;";
+        //$res['res']=$decri; 
+        $params = array($obj->Cedula,
+                        $obj->Nombres,
+                        $obj->Apellidos, 
+                        $obj->IdPerfil,
+                        
+                    );
+
+        $stmt = sqlsrv_query( $dbConn, $sql , $params );
+
+           
+        if (!$stmt){
+             $res['estado']=false;
+             $res['mensaje']=sqlsrv_errors();              
+            $res['res']= json_encode($obj);
+        }else{
+           
+            sqlsrv_next_result($stmt);
+            sqlsrv_fetch($stmt);
+            $id=sqlsrv_get_field($stmt, 0);
+            actualizarImagen($obj->img,$dbConn,$id);
+            actualizarContraseña($obj->Contrasena,$dbConn,$id);
+            
+        }
+        header("HTTP/1.1 200 OK");
+        sqlsrv_close($dbConn);        
+        echo json_encode($res);
+
+
 
         
-
-    sqlsrv_close($dbConn);
-
-    header("HTTP/1.1 200 OK");
-    $res= array( 'data'=>encrypt($pila,false));
-    echo json_encode($res);
-
-           // echo json_encode($sql->fetchAll()); 'estado' => $estado,'mensaje'=>$mensaje,
-	    
-	
-        //}  
     } catch (Exception $e) {
-        echo 'Excepción capturada: ',  $e->getMessage(), "\n";
+        $res['estado']=false;
+        $res['mensaje']=$e->getMessage();
+        echo json_encode($res);
     }
+
+
 }
 
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && $auth) {
+if ($_SERVER['REQUEST_METHOD'] == 'PUT' && $auth) {
     
     try {
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
@@ -92,11 +218,12 @@ function actualizarInfomacion($usr,$dbConn){
     $sql = "UPDATE Usuarios
     SET Cedula = ?
        ,Nombres = ?
-       ,Apellidos = ? 
+       ,Apellidos = ?
+       ,IdPerfil  = ?
        
   WHERE IdUsuario= ?";
            
-    $params = array($usr->Cedula,$usr->Nombres,$usr->Apellidos,$usr->IdUsuario,);
+    $params = array($usr->Cedula,$usr->Nombres,$usr->Apellidos,$usr->IdPerfil,$usr->IdUsuario,);
     $stmt = sqlsrv_query( $dbConn, $sql , $params );
         if($stmt){
             return true;
@@ -164,6 +291,57 @@ function guardarImg($img,$IdUsuario){
     $filepath = __DIR__ . "/images/".$nomImg;  
     file_put_contents($filepath, $data);
     return $nomImg;
+}
+if ($_SERVER['REQUEST_METHOD'] == 'DELETE' && $auth) {
+    
+    try {
+        if (isset($_GET['id'])) {
+            $sql = "UPDATE Usuarios
+            SET Estado = 'Eliminado'             
+          
+            WHERE IdUsuario=?";
+            $decri= decrypt($_GET['id']);
+            $obj= json_decode($decri, true);
+            $params = array($obj);
+            $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+            $stmt = sqlsrv_query( $dbConn, $sql , $params, $options );
+            
+ 
+            $pila=array();
+            
+            
+            //$res['estado']=$row_count;
+            if ($stmt){
+                 $res['estado']=true;
+                 $res['mensaje']='Usuario Eliminado';
+                
+            }else{
+                $res['estado']=false;
+                $res['mensaje']=sqlsrv_errors();
+               
+            }
+            
+        
+    
+        }else{
+            
+                 $res['estado']=false;
+                 $res['mensaje']='Informacion Incompleta';
+                 $res['res']='';
+           
+
+        } 
+        sqlsrv_close($dbConn);  
+
+        header("HTTP/1.1 200 OK");
+        echo json_encode($res);
+        
+    } catch (Exception $e) {
+        $res['estado']=false;
+        $res['mensaje']=$e->getMessage();
+        echo json_encode($res);
+    }
+
 }
 
 header('Content-type: application/json; charset=UTF-8');
