@@ -189,7 +189,7 @@ export class UsuariosComponent implements OnInit {
      Apellidos:TxtApellidos,
      Contrasena:TxtContraseña,
      IdPerfil:perfilid,
-     img:this.base64textStringG
+     img:this.usuarioSelec.Imagen
    }
 
    if(this.validaruUsr(usrAct)){
