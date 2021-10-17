@@ -14,7 +14,7 @@ declare var $: any;
 export class HomeComponent implements OnInit {
   
   constructor(@Inject(SESSION_STORAGE) private storage: StorageService,  public router: Router,private encriSer:EncriptadoService,private usrSer:UsuariosService) { }
-  usuraioUso:Usuario={Apellidos:'',Cedula:'',Estado:'',FechaCreacion:'',IdPerfil:'',IdUsuario:'',Imagen:'',NombrePerfil:'',Nombres:'',token:''};
+  usuraioUso:Usuario={Apellidos:'',Cedula:'',Estado:'',FechaCreacion:{date:''},IdPerfil:'',IdUsuario:'',Imagen:'',NombrePerfil:'',Nombres:'',token:''};
   permisos:any=[];
   ngOnInit(): void {
     this.ScriptInicioTemplate();
