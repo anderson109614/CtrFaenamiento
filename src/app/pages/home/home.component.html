@@ -66,7 +66,7 @@
             </a> </div>
         <div class="menu">
             <ul id="menu">
-
+                <li id="menu-home"  ><a routerLink="/"><i class="fa fa-user"></i><span>Home</span></a></li>
                 <li *ngIf="exitsRuta('guias')" id="menu-academico"><a routerLink="guias"><i class="fa fa-file-text"></i><span>Gias</span><span
                             class="fa fa-angle-right" style="float: right"></span></a>
                     <ul id="menu-academico-sub">
@@ -78,8 +78,8 @@
 
 
                 <li id="menu-home"  *ngIf="exitsRuta('usuarios')"><a routerLink="usuarios"><i class="fa fa-user"></i><span>Usuarios</span></a></li>
-                <li id="menu-home"  *ngIf="exitsRuta('usuarios')"><a routerLink="usuarios"><i class="fa fa-user"></i><span>Areas</span></a></li>
-                
+                <li id="menu-home"  *ngIf="exitsRuta('areas')"><a routerLink="areas"><i class="fa fa-map-signs"></i><span>Areas</span></a></li>
+                <li id="menu-home"  *ngIf="exitsRuta('reportes')"><a routerLink="reportes"><i class="fa fa-file-text"></i><span>Reportes</span></a></li>
 
             </ul>
         </div>

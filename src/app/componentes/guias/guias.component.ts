@@ -32,12 +32,12 @@ export class GuiasComponent implements OnInit {
     , FechaInicio: { date: '' }
     , FechaFinaliza: { date: '' }
     , Numero: ''
-    , AreaDestino: { Sitio: '', Canton: '', Descripcion: '', Finalidad: '', Codigo: '', IdArea: '', Parroquia: '', Provincia: '' }
-    , AreaOrigen: { Sitio: '', Canton: '', Descripcion: '', Finalidad: '', Codigo: '', IdArea: '', Parroquia: '', Provincia: '' }
+    , AreaDestino: { IdArea: '', Canton: '', Codigo: '', Descripcion: '',  Parroquia: '', Provincia: '', CodPredial:'',Direccion:'',IdPropietario:'',Propietario:{Cedula:'',IdPersona:'',Nombres:''} }
+    , AreaOrigen: { IdArea: '', Canton: '', Codigo: '', Descripcion: '',  Parroquia: '', Provincia: '', CodPredial:'',Direccion:'',IdPropietario:'',Propietario:{Cedula:'',IdPersona:'',Nombres:''} }
     , IdGia: ''
     , FechaEmision: { date: '' }
     , LugarOrigen: ''
-    , PersonaAutorizada: { Cedula: '', Id: '', Nombres: '' }
+    , PersonaAutorizada: { Cedula: '', IdPersona: '', Nombres: '' }
     , Ruta: ''
     , TipoEmision: ''
     , TotalProductos: 0
@@ -108,7 +108,7 @@ export class GuiasComponent implements OnInit {
         || guia.AreaOrigen.Provincia.toUpperCase().search(value.toUpperCase()) >= 0
         || guia.AreaOrigen.Canton.toUpperCase().search(value.toUpperCase()) >= 0
         || guia.AreaOrigen.Parroquia.toUpperCase().search(value.toUpperCase()) >= 0
-        || guia.AreaOrigen.Sitio.toUpperCase().search(value.toUpperCase()) >= 0
+       // || guia.AreaOrigen.Sitio.toUpperCase().search(value.toUpperCase()) >= 0
         || guia.PersonaAutorizada.Cedula.toUpperCase().search(value.toUpperCase()) >= 0
         || guia.PersonaAutorizada.Nombres.toUpperCase().search(value.toUpperCase()) >= 0
         || guia.Vehiculo.Placa.toUpperCase().search(value.toUpperCase()) >= 0);
@@ -292,12 +292,12 @@ export class GuiasComponent implements OnInit {
       , FechaInicio: { date: '' }
       , FechaFinaliza: { date: '' }
       , Numero: ''
-      , AreaDestino: { Sitio: '', Canton: '', Descripcion: '', Finalidad: '', Codigo: '', IdArea: '', Parroquia: '', Provincia: '' }
-      , AreaOrigen: { Sitio: '', Canton: '', Descripcion: '', Finalidad: '', Codigo: '', IdArea: '', Parroquia: '', Provincia: '' }
+      , AreaDestino: { IdArea: '', Canton: '', Codigo: '', Descripcion: '',  Parroquia: '', Provincia: '', CodPredial:'',Direccion:'',IdPropietario:'',Propietario:{Cedula:'',IdPersona:'',Nombres:''} }
+      , AreaOrigen: { IdArea: '', Canton: '', Codigo: '', Descripcion: '',  Parroquia: '', Provincia: '', CodPredial:'',Direccion:'',IdPropietario:'',Propietario:{Cedula:'',IdPersona:'',Nombres:''} }
       , IdGia: ''
       , FechaEmision: { date: '' }
       , LugarOrigen: ''
-      , PersonaAutorizada: { Cedula: '', Id: '', Nombres: '' }
+      , PersonaAutorizada: { Cedula: '', IdPersona: '', Nombres: '' }
       , Ruta: ''
       , TipoEmision: ''
       , TotalProductos: 0

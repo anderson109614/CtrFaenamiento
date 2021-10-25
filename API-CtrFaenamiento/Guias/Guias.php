@@ -127,6 +127,7 @@ function getArea($id,$dbConn){
                  
             }else{
                 while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
+                    $row['Propietario']=getPersona($row['IdPropietario'],$dbConn);
                     array_push($pila, $row);
                 }
                 

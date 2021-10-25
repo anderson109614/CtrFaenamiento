@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && $auth) {
                  $res['res']=$obj;
             }else{
                 while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
+                    $row['Propietario']=getPersona($row['IdPropietario'],$dbConn);
                     array_push($pila, $row);
                 }
                 $res['res']= encrypt($pila,false);
@@ -53,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && $auth) {
                  $res['mensaje']='no se encontraron registros.'; 
             }else{
                 while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
+                    $row['Propietario']=getPersona($row['IdPropietario'],$dbConn);
                     array_push($pila, $row);
                 }
                 $res['res']= encrypt($pila,false);
@@ -69,7 +71,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && $auth) {
     }
 }
 
-
+function getPersona($id,$dbConn){
+    $sql = "SELECT *
+            FROM Personas
+            WHERE IdPersona=?";
+            
+            $params = array($id);
+            $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+            $stmt = sqlsrv_query( $dbConn, $sql , $params, $options );
+            $row_count = sqlsrv_num_rows( $stmt );
+ 
+            $pila=array();
+            
+            
+            //$res['estado']=$row_count;
+            if ($row_count === false || $row_count==0){
+                 //$res['estado']=false;
+                 //$res['mensaje']=sqlsrv_errors();
+                 
+            }else{
+                while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
+                    array_push($pila, $row);
+                }
+                
+            }
+            return $pila[0];
+}
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $auth) {
     
     try {
@@ -82,7 +109,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $auth) {
                 ,Provincia
                 ,Canton
                 ,Parroquia
-                ,Sitio
+                ,Direccion
+                ,CodPredial
+                ,Descripcion
+                ,IdPropietario
                ) 
                 VALUES
                 (?
@@ -90,10 +120,79 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $auth) {
                 ,?
                 ,?
                 ,?
+                ,?
+                ,?
+                ,?
                 );
                 SELECT SCOPE_IDENTITY() AS id;";
         //$res['res']=$decri; 
-        $params = array($obj->Codigo,$obj->Provincia,$obj->Canton, $obj->Parroquia,$obj->Sitio);
+        $params = array($obj->Codigo
+        ,$obj->Provincia
+        ,$obj->Canton
+        ,$obj->Parroquia
+        ,$obj->Direccion
+        ,$obj->CodPredial
+        ,$obj->Descripcion
+        ,$obj->IdPropietario);
+
+        $stmt = sqlsrv_query( $dbConn, $sql , $params );
+
+           
+        if (!$stmt){
+             $res['estado']=false;
+             $res['mensaje']=sqlsrv_errors(); 
+             
+            $res['res']= json_encode($obj);
+        }else{
+           
+            
+            $res['res']= 'Actualisacion Correcta';
+
+            
+        }
+        header("HTTP/1.1 200 OK");
+        sqlsrv_close($dbConn);        
+        echo json_encode($res);
+
+
+
+        
+    } catch (Exception $e) {
+        $res['estado']=false;
+        $res['mensaje']=$e->getMessage();
+        echo json_encode($res);
+    }
+
+}
+if ($_SERVER['REQUEST_METHOD'] == 'PUT' && $auth) {
+    
+    try {
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        $decri= decrypt($input['value']);
+        $obj= json_decode($decri, false);
+       
+        $sql = "UPDATE Areas
+                SET 
+                Codigo=?
+                ,Provincia=?
+                ,Canton=?
+                ,Parroquia=?
+                ,Direccion=?
+                ,CodPredial=?
+                ,Descripcion=?
+                ,IdPropietario=?
+                WHERE IdArea=?
+               ";
+        //$res['res']=$decri; 
+        $params = array($obj->Codigo
+        ,$obj->Provincia
+        ,$obj->Canton
+        ,$obj->Parroquia
+        ,$obj->Direccion
+        ,$obj->CodPredial
+        ,$obj->Descripcion
+        ,$obj->IdPropietario
+        ,$obj->IdArea);
 
         $stmt = sqlsrv_query( $dbConn, $sql , $params );
 
@@ -125,7 +224,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $auth) {
     }
 
 }
-
 
 header('Content-type: application/json; charset=UTF-8');
 header("Access-Control-Allow-Origin: *");

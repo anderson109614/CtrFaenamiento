@@ -15,6 +15,7 @@ import { NewguiaComponent } from './componentes/newguia/newguia.component';
 import { AreasComponent } from './componentes/areas/areas.component';
 import { PersonasComponent } from './componentes/personas/personas.component';
 import { VehiculosComponent } from './componentes/vehiculos/vehiculos.component';
+import { ReportesComponent } from './componentes/reportes/reportes.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { VehiculosComponent } from './componentes/vehiculos/vehiculos.component'
     NewguiaComponent,
     AreasComponent,
     PersonasComponent,
-    VehiculosComponent
+    VehiculosComponent,
+    ReportesComponent
   ],
   imports: [
     BrowserModule,

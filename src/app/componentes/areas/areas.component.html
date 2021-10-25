@@ -1,1 +1,379 @@
-<p>areas works!</p>
+<div class="chit-chat-layer1">
+    <div class="col-md-12 chit-chat-layer1-left">
+        <div class="work-progres">
+            <div class="chit-chat-heading">
+                Usuarios
+            </div>
+            <div class="mail-toolbar clearfix">
+                <div class="row">
+
+                    <div class="col-md-3">
+
+                        <a class="btn btn_1 btn-default mrg5R" (click)="clknuevaArea()">
+                            <i class="fa fa-plus-square"> </i>
+                        </a>
+
+
+                        <a class="btn btn_2 btn-default mrg5R" (click)="CargarlisataAreas()">
+                            <i class="fa fa-refresh"> </i>
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <!--search-box-->
+                        <div class="search-box" style="width: 500px;">
+                            <form>
+                                <input type="text" placeholder="Search..." required="" (keyup)="busquedaareas($event)">
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="table-responsive">
+                <div id="dtDynamicVerticalScrollExample" class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <!--table-wrapper-scroll-y my-custom-scrollbar -->
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+
+                                <th>Codigo</th>
+                                <th>Descripcion</th>
+                                <th>Provincia</th>
+                                <th>Canton</th>
+                                <th>Parroquia</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let area of listaAreas;index as i;">
+
+                                <td>{{area.Codigo}}</td>
+                                <td>{{area.Descripcion}} </td>
+                                <td>{{area.Provincia}}</td>
+                                <td>{{area.Canton}}</td>
+                                <td>{{area.Parroquia}}</td>
+                                <td>
+                                    <button class="btn btn-default" style="margin-right: 5px;"
+                                        (click)="cklActualizar(area)">
+                                        <i class="fa fa-pencil-square-o icon_9"></i>
+                                    </button>
+
+
+
+                                </td>
+                                <!-- <button class="btn btn-default" (click)="clickEliminar(area)">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                   <td><span class="label label-danger">in progress</span></td>
+                                <td><span class="badge badge-info">50%</span></td> -->
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Editar area -->
+<div class="modal  " id="Modalarea" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Area</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="inbox">
+
+                            <div class="col-md-12 compose-right">
+
+
+
+                             
+                                    <div class="com-mail">
+                                        <div class="mb-3 row">
+                                            <label for="txtProvinciaDestino"
+                                                class="col-sm-2 col-form-label ">Propietario</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control " id="txtPropietarioNew" disabled="true"
+                                                    value="{{areaUso.Propietario.Cedula}}-{{areaUso.Propietario.Nombres}}">
+                                            </div>
+                                            <div class="col-sm-2">
+                                               <button class="btn " (click)="abrirModalListaPersonas()"><i class="fa fa-user" ></i></button>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtProvinciaDestino"
+                                                class="col-sm-2 col-form-label ">Descripcion</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control " id="txtDescripcionACT" value="{{areaUso.Descripcion}}">
+                                            </div>
+                                        </div>
+                                        <br>
+
+                                        <div class="mb-3 row">
+                                            <label for="txtProvinciaDestino"
+                                                class="col-sm-2 col-form-label ">Provincia</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control " id="txtProvinciaACT" value="{{areaUso.Provincia}}">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtCantonDestino" class="col-sm-2 col-form-label">Cantón</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtCantonACT" value="{{areaUso.Canton}}">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtParroquiaDetino"
+                                                class="col-sm-2 col-form-label">Parroquia</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtParroquiaACT" value="{{areaUso.Parroquia}}">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtSitioKMDestino"
+                                                class="col-sm-2 col-form-label">Direccion</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtDireccionACT" value="{{areaUso.Direccion}}">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtSitioKMDestino" class="col-sm-2 col-form-label">Codigo
+                                                Predial</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtCodPredialACT" value="{{areaUso.CodPredial}}">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtCodigoDestino" class="col-sm-2 col-form-label">CÓDIGO
+                                                ÁREA</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtCodigoACT" value="{{areaUso.Codigo}}">
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                    </div>
+
+
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" (click)="clkGuardarACT()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Nuevo Area -->
+<div class="modal  " id="ModalNuevaArea" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="inbox">
+
+                            <div class="col-md-12 compose-right">
+                                <div class="com-mail">
+                                    <div class="mb-3 row">
+                                        <label for="txtProvinciaDestino"
+                                            class="col-sm-2 col-form-label ">Propietario</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control " id="txtPropietarioNew" disabled="true"
+                                                value="{{areaUso.Propietario.Cedula}}-{{areaUso.Propietario.Nombres}}">
+                                        </div>
+                                        <div class="col-sm-2">
+                                           <button class="btn " (click)="abrirModalListaPersonas()"><i class="fa fa-user" ></i></button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtProvinciaDestino"
+                                            class="col-sm-2 col-form-label ">Descripcion</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control " id="txtDescripcionNEW" value="{{areaUso.Descripcion}}">
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <div class="mb-3 row">
+                                        <label for="txtProvinciaDestino"
+                                            class="col-sm-2 col-form-label ">Provincia</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control " id="txtProvinciaNEW" value="{{areaUso.Provincia}}">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtCantonDestino" class="col-sm-2 col-form-label">Cantón</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtCantonNEW" value="{{areaUso.Canton}}">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtParroquiaDetino"
+                                            class="col-sm-2 col-form-label">Parroquia</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtParroquiaNEW" value="{{areaUso.Parroquia}}">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtSitioKMDestino"
+                                            class="col-sm-2 col-form-label">Direccion</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtDireccionNEW" value="{{areaUso.Direccion}}">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtSitioKMDestino" class="col-sm-2 col-form-label">Codigo
+                                            Predial</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtCodPredialNEW" value="{{areaUso.CodPredial}}">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtCodigoDestino" class="col-sm-2 col-form-label">CÓDIGO
+                                            ÁREA</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtCodigoNEW" value="{{areaUso.Codigo}}">
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" (click)="clkGuardarNewArea()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Loista personas -->
+<div class="modal  " id="ModalListaPersonas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Personas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="search-box" style="width: 500px;">
+                            <form>
+                                <input type="text" placeholder="Search..." required="" (keyup)="busquedaPersonas($event)">
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <div class="table-responsive">
+                            <div id="dtDynamicVerticalScrollExample" class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <!--table-wrapper-scroll-y my-custom-scrollbar -->
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+            
+                                            <th>Cedula</th>
+                                            <th>Nombres</th>
+                                            
+            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let persona of listaPersonas;index as i;">
+            
+                                            <td>{{persona.Cedula}}</td>
+                                            <td>{{persona.Nombres}} </td>
+                                            
+                                            <td>
+                                                <button class="btn btn-default" style="margin-right: 5px;" data-dismiss="modal"
+                                                    (click)="SelecPersona(persona)">
+                                                    <i class="fa fa-arrow-down icon_9"></i>
+                                                </button>
+            
+            
+            
+                                            </td>
+                                            <!-- <button class="btn btn-default" (click)="clickEliminar(area)">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                               <td><span class="label label-danger">in progress</span></td>
+                                            <td><span class="badge badge-info">50%</span></td> -->
+            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                
+            </div>
+        </div>
+    </div>
+</div>

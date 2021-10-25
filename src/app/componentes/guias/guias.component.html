@@ -163,13 +163,13 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label for="txtTipoEmicion" class="col-sm-2 col-form-label">Tipo de
-                                                emision</label>
+                                            <label for="txtCCCI" class="col-sm-2 col-form-label">CC/CI/RUC</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control required" id="txtTipoEmicion"
-                                                    (change)="changeValid()" value="{{guiaUso.TipoEmision}}">
+                                                <input class="form-control" id="txtCCCI" value="{{guiaUso.PersonaAutorizada.Cedula}}"
+                                                    disabled="true">
                                             </div>
                                         </div>
+                                       <br>
                                         <div class="mb-3 row">
                                             <label for="txtAutorizado"
                                                 class="col-sm-2 col-form-label">Autorizado</label>
@@ -184,28 +184,14 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3 row">
-                                            <label for="txtFechaEmicion" class="col-sm-2 col-form-label">Fecha
-                                                de
-                                                emisión</label>
-                                            <div class="col-sm-5">
-                                                <input class="form-control required" type="date" id="txtFechaEmicion"
-                                                    (change)="ChangeFechaEmicion()" (change)="changeValid()" value="{{fechaEmicion}}">
-
-                                            </div>
-                                            <div class="col-sm-5">
-                                                <input class="form-control required" type="time" id="txtHoraEmicion"
-                                                    (change)="ChangeHoraEmicion()" (change)="changeValid()" value="{{fechaEmicionHora}}">
-
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3 row">
-                                            <label for="txtCCCI" class="col-sm-2 col-form-label">CC/CI/RUC</label>
+                                            <label for="txtTipoEmicion" class="col-sm-2 col-form-label">Tipo</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" id="txtCCCI" value="{{guiaUso.PersonaAutorizada.Cedula}}"
-                                                    disabled="true">
+                                                <input class="form-control required" id="txtTipoEmicion"
+                                                    (change)="changeValid()" value="{{guiaUso.TipoEmision}}">
                                             </div>
                                         </div>
+
+                                       
 
 
                                     </div>
@@ -233,24 +219,31 @@
 
 
                             </div>
+                            <!--guiaUso  -->
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3 row">
-                                            <label for="txtLugarOrigen" class="col-sm-2 col-form-label">Lugar
-                                                Origen</label>
-
+                                            <label for="txtDescripcionDestino"
+                                                class="col-sm-2 col-form-label">Descipción</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control required" id="txtLugarOrigen"
-                                                    (change)="changeValid()" value="{{guiaUso.LugarOrigen}}">
+                                                <input class="form-control" id="txtDescripcionDestino" value="{{guiaUso.AreaOrigen.Descripcion}}" disabled="true">
                                             </div>
                                         </div>
                                         <br>
                                         <div class="mb-3 row">
-                                            <label for="txtNombreOrigen" class="col-sm-2 col-form-label">Nombre</label>
+                                            <label for="txtFinalidadDestino"
+                                                class="col-sm-2 col-form-label">CC/CI/RUC</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" id="txtNombreOrigen"
-                                                    value="{{guiaUso.PersonaAutorizada.Nombres}}" disabled="true">
+                                                <input class="form-control" id="" value="{{guiaUso.AreaOrigen.Propietario.Cedula}}" disabled="true">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtFinalidadDestino"
+                                                class="col-sm-2 col-form-label">Propietario</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="" value="{{guiaUso.AreaOrigen.Propietario.Nombres}}" disabled="true">
                                             </div>
                                         </div>
                                         <br>
@@ -258,16 +251,15 @@
                                             <label for="txtxProvinciaOrigen"
                                                 class="col-sm-2 col-form-label">Provincia</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" id="txtxProvinciaOrigen"
-                                                    value="{{guiaUso.AreaOrigen.Provincia}}" disabled="true">
+                                                <input class="form-control" id="txtxProvinciaOrigen" value="{{guiaUso.AreaOrigen.Provincia}}" disabled="true">
                                             </div>
                                         </div>
                                         <br>
                                         <div class="mb-3 row">
-                                            <label for="txtCantonOrigen" class="col-sm-2 col-form-label">Cantón</label>
+                                            <label for="txtCantonOrigen"
+                                                class="col-sm-2 col-form-label">Cantón</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" id="txtCantonOrigen"
-                                                    value="{{guiaUso.AreaOrigen.Canton}}" disabled="true">
+                                                <input class="form-control" id="txtCantonOrigen" value="{{guiaUso.AreaOrigen.Canton}}" disabled="true">
                                             </div>
                                         </div>
                                         <br>
@@ -275,16 +267,23 @@
                                             <label for="txtParroquiaOrigen"
                                                 class="col-sm-2 col-form-label">Parroquia</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" id="txtParroquiaOrigen"
-                                                    value="{{guiaUso.AreaOrigen.Parroquia}}" disabled="true">
+                                                <input class="form-control" id="txtParroquiaOrigen" value="{{guiaUso.AreaOrigen.Parroquia}}" disabled="true">
                                             </div>
                                         </div>
                                         <br>
                                         <div class="mb-3 row">
-                                            <label for="txtSitioKM" class="col-sm-2 col-form-label">Sitio/KM</label>
+                                            <label for="txtSitioKMDestino"
+                                                class="col-sm-2 col-form-label">Dirección</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" id="txtSitioKM" value="{{guiaUso.AreaOrigen.Sitio}}"
-                                                    disabled="true">
+                                                <input class="form-control" id="txtSitioKMDestino" value="{{guiaUso.AreaOrigen.Direccion}}" disabled="true">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3 row">
+                                            <label for="txtFinalidadDestino"
+                                                class="col-sm-2 col-form-label">Codigo Predial</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtFinalidadDestino" value="{{guiaUso.AreaOrigen.CodPredial}}" disabled="true">
                                             </div>
                                         </div>
                                         <br>
@@ -292,8 +291,7 @@
                                             <label for="txtCodigoOrigen" class="col-sm-2 col-form-label">CODIGO
                                                 ÁREA</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" id="txtCodigoOrigen"
-                                                    value="{{guiaUso.AreaOrigen.Codigo}}" disabled="true">
+                                                <input class="form-control" id="txtCodigoOrigen" value="{{guiaUso.AreaOrigen.Codigo}}" disabled="true">
                                             </div>
                                         </div>
 
@@ -312,67 +310,79 @@
                             <div class="panel-body">
                                 <div class="col-md-12">
                                     <div class="mb-3 row">
-                                        <label for="txtFinalidadDestino"
-                                            class="col-sm-2 col-form-label">Finalidad</label>
-                                        <div class="col-sm-10">
-                                            <input class="form-control" id="txtFinalidadDestino"
-                                                value="{{guiaUso.AreaDestino.Finalidad}}" disabled="true">
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="mb-3 row">
                                         <label for="txtDescripcionDestino"
                                             class="col-sm-2 col-form-label">Descipción</label>
                                         <div class="col-sm-10">
-                                            <input class="form-control" id="txtDescripcionDestino"
-                                                value="{{guiaUso.AreaDestino.Descripcion}}" disabled="true">
+                                            <input class="form-control" id="txtDescripcionDestino" value="{{guiaUso.AreaDestino.Descripcion}}" disabled="true">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="mb-3 row">
-                                        <label for="txtProvinciaDestino"
+                                        <label for="txtFinalidadDestino"
+                                            class="col-sm-2 col-form-label">CC/CI/RUC</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="" value="{{guiaUso.AreaDestino.Propietario.Cedula}}" disabled="true">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtFinalidadDestino"
+                                            class="col-sm-2 col-form-label">Propietario</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="" value="{{guiaUso.AreaDestino.Propietario.Nombres}}" disabled="true">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtxProvinciaOrigen"
                                             class="col-sm-2 col-form-label">Provincia</label>
                                         <div class="col-sm-10">
-                                            <input class="form-control" id="txtProvinciaDestino"
-                                                value="{{guiaUso.AreaDestino.Provincia}}" disabled="true">
+                                            <input class="form-control" id="txtxProvinciaOrigen" value="{{guiaUso.AreaDestino.Provincia}}" disabled="true">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="mb-3 row">
-                                        <label for="txtCantonDestino" class="col-sm-2 col-form-label">Cantón</label>
+                                        <label for="txtCantonOrigen"
+                                            class="col-sm-2 col-form-label">Cantón</label>
                                         <div class="col-sm-10">
-                                            <input class="form-control" id="txtCantonDestino"
-                                                value="{{guiaUso.AreaDestino.Canton}}" disabled="true">
+                                            <input class="form-control" id="txtCantonOrigen" value="{{guiaUso.AreaDestino.Canton}}" disabled="true">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="mb-3 row">
-                                        <label for="txtParroquiaDetino"
+                                        <label for="txtParroquiaOrigen"
                                             class="col-sm-2 col-form-label">Parroquia</label>
                                         <div class="col-sm-10">
-                                            <input class="form-control" id="txtParroquiaDetino"
-                                                value="{{guiaUso.AreaDestino.Parroquia}}" disabled="true">
+                                            <input class="form-control" id="txtParroquiaOrigen" value="{{guiaUso.AreaDestino.Parroquia}}" disabled="true">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="mb-3 row">
-                                        <label for="txtSitioKMDestino" class="col-sm-2 col-form-label">Sitio/KM</label>
+                                        <label for="txtSitioKMDestino"
+                                            class="col-sm-2 col-form-label">Dirección</label>
                                         <div class="col-sm-10">
-                                            <input class="form-control" id="txtSitioKMDestino"
-                                                value="{{guiaUso.AreaDestino.Sitio}}" disabled="true">
+                                            <input class="form-control" id="txtSitioKMDestino" value="{{guiaUso.AreaDestino.Direccion}}" disabled="true">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="mb-3 row">
-                                        <label for="txtCodigoDestino" class="col-sm-2 col-form-label">CÓDIGO
+                                        <label for="txtFinalidadDestino"
+                                            class="col-sm-2 col-form-label">Codigo Predial</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="txtFinalidadDestino" value="{{guiaUso.AreaDestino.CodPredial}}" disabled="true">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 row">
+                                        <label for="txtCodigoOrigen" class="col-sm-2 col-form-label">CODIGO
                                             ÁREA</label>
                                         <div class="col-sm-10">
-                                            <input class="form-control" id="txtCodigoDestino"
-                                                value="{{guiaUso.AreaDestino.Codigo}}" disabled="true">
+                                            <input class="form-control" id="txtCodigoOrigen" value="{{guiaUso.AreaDestino.Codigo}}" disabled="true">
                                         </div>
                                     </div>
 
                                 </div>
+
                             </div>
 
                         </div>
@@ -457,6 +467,21 @@
                                 <h3 class="panel-title">Validez del Certificado</h3>
                             </div>
                             <div class="panel-body">
+                                <div class="mb-3 row">
+                                    <label for="txtFechaEmicion" class="col-sm-2 col-form-label">Fecha
+                                        de
+                                        emisión</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control required" type="date" id="txtFechaEmicion"
+                                            (change)="ChangeFechaEmicion()" (change)="changeValid()" value="{{fechaEmicion}}">
+
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input class="form-control required" type="time" id="txtHoraEmicion"
+                                            (change)="ChangeHoraEmicion()" (change)="changeValid()" value="{{fechaEmicionHora}}">
+
+                                    </div>
+                                </div>
                                 <div class="mb-3 row">
                                     <label for="txtFechaEmicion" class="col-sm-2 col-form-label">Inicia</label>
                                     <div class="col-sm-5">

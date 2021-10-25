@@ -19,6 +19,11 @@ export class GuiasService {
     return this.http.get<any>(this.url + 'Guias/Personas.php?ced='+val,{ headers: { 'token': tok } })
     
   }
+  getPersonas(tok:string){
+   
+    return this.http.get<any>(this.url + 'Guias/Personas.php',{ headers: { 'token': tok } })
+    
+  }
   
   guardarPersona(ced:string,nombres:string,tok:string)
   {
@@ -33,12 +38,25 @@ export class GuiasService {
     return this.http.get<any>(this.url + 'Guias/Areas.php?cod='+val,{ headers: { 'token': tok } })
     
   }
+  getAreas(tok:string){
+    //var val=this.encriptadoSer.encriptar(JSON.stringify(codigo));
+    return this.http.get<any>(this.url + 'Guias/Areas.php',{ headers: { 'token': tok } })
+    
+  }
   guardarArea(are:Area,tok:string)
   {
     
     var valp=this.encriptadoSer.encriptar(JSON.stringify(are));
     
     return this.http.post<any>(this.url + 'Guias/Areas.php',{value:valp},{ headers: { 'token': tok } })
+
+  }
+  ActualizarArea(are:Area,tok:string)
+  {
+    
+    var valp=this.encriptadoSer.encriptar(JSON.stringify(are));
+    
+    return this.http.put<any>(this.url + 'Guias/Areas.php',{value:valp},{ headers: { 'token': tok } })
 
   }
   getVehiculo(cedula:any,tok:string){

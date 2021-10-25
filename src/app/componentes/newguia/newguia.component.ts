@@ -29,9 +29,9 @@ export class NewguiaComponent implements OnInit {
     VALIDO_HASTA_Hora: string = '';
     VEHICULO: string = '';
     usuarioUso: any = {};
-    personaUso: Persona = { Id: '', Cedula: '', Nombres: '' };
-    areaDestino: Area = { IdArea: '', Canton: '', Codigo: '', Descripcion: '', Finalidad: '', Parroquia: '', Provincia: '', Sitio: '' };
-    areaOrigen: Area = { IdArea: '', Canton: '', Codigo: '', Descripcion: '', Finalidad: '', Parroquia: '', Provincia: '', Sitio: '' };
+    personaUso: Persona = { IdPersona: '', Cedula: '', Nombres: '' };
+    areaDestino: Area = { IdArea: '', Canton: '', Codigo: '', Descripcion: '',  Parroquia: '', Provincia: '', CodPredial:'',Direccion:'',IdPropietario:'',Propietario:{Cedula:'',IdPersona:'',Nombres:''} };
+    areaOrigen: Area = { IdArea: '', Canton: '', Codigo: '', Descripcion: '',  Parroquia: '', Provincia: '', CodPredial:'',Direccion:'',IdPropietario:'',Propietario:{Cedula:'',IdPersona:'',Nombres:''} };
     vehiculouso: Vehiculo = { IdVehiculo: '', IdPersonaPer: '', Placa: '', Tipo: '' }
     listaDetalles: Detalle[] = [];
     valtotalLista:number=0;
@@ -43,6 +43,7 @@ export class NewguiaComponent implements OnInit {
 
     ngOnInit() {
         this.cargarUsuarioUso();
+       
     }
 
     ngAfterViewInit(): void {
@@ -106,41 +107,61 @@ export class NewguiaComponent implements OnInit {
         this.qrScannerComponent.stopScanning();
     }
     async cargarInformacion(escaneoQR: string) {
-        /*  CSMI_No: 01-403-2973786
-          AUTORIZADO_A: 1803204971
-          CODIGO_AREA_ORIGEN: 180550
-          CODIGO_AREA_DESTINO: 180950
-          TOTAL_PRODUCTOS: 10
-          VALIDO_HASTA: 20/02/2021 14:24:24
-          VEHICULO: TAA-5467*/
-        var separado = escaneoQR.split(' ');
+        /*  CZPM Nº: 2021-09-5947832289  
+AUTORIZADO A: 1803079027  
+CODIGÓ ÁREA ORIGEN: 24-0180-01177-00286284  
+CODIGÓ ÁREA DESTINO: 24-0180%01177-00160292  
+TOTAL PRODUCTOS: 2  
+VALIDO HASTA: 2021-09-15 17:36:00  
+VEHICULO: 
+*/
+        var separado = escaneoQR.split('\n');
         console.log(separado);
+        
         var datos = [];
-        for (let index = 1; index < separado.length; index++) {
-            datos.push(separado[index].split('\n')[0])
+        for (let index = 0; index < separado.length; index++) {
+            datos.push(separado[index].split(':')[1].replace(/ /g, ""))
 
 
         }
         console.log(datos);
+       
         this.CSMI_No = datos[0];
         this.AUTORIZADO_A = datos[1];
         this.CODIGO_AREA_ORIGEN = datos[2];
         this.CODIGO_AREA_DESTINO = datos[3];
         this.TOTAL_PRODUCTOS = Number.parseInt(datos[4]);
-        this.VALIDO_HASTA_fecha = datos[5];
+        /**/
+        var fechaAux=separado[5].split(' ');
+        var fecha=fechaAux[2];
+        this.VALIDO_HASTA_fecha = fecha;
+        var sep = this.VALIDO_HASTA_fecha.split('/');
+        console.log('sep',sep);
+        //this.VALIDO_HASTA_fecha = sep[2] + "-" + sep[1] + "-" + sep[0];
+        this.VALIDO_HASTA_Hora=fechaAux[3];
+        console.log('fechHora',this.VALIDO_HASTA_Hora,this.VALIDO_HASTA_fecha);
+
+
+        /*
+        this.VALIDO_HASTA_fecha = separado[5];
         var sep = this.VALIDO_HASTA_fecha.split('/');
         this.VALIDO_HASTA_fecha = sep[2] + "-" + sep[1] + "-" + sep[0];
         console.log(this.VALIDO_HASTA_fecha)
         this.VALIDO_HASTA_Hora = datos[6];
+        */
+        /**/
         this.VEHICULO = datos[7];
         this.activarParpadeos();
         (<HTMLButtonElement>document.getElementById('btnGuardar')).disabled=false;
         (<HTMLButtonElement>document.getElementById('btnLimpiar')).disabled=false;
-        await this.cargarPersona();
+        
         await this.cargarVehiculo();
         await this.cargarOrigen();
         await this.cargarDestino();
-
+        await this.cargarPersona();
+        
+         /*
+*/
 
     }
     cargarPersona() {
@@ -149,7 +170,7 @@ export class NewguiaComponent implements OnInit {
                 if (res.estado) {
                     var usrs = this.encriSer.desencriptar(res.res, false);
                     console.log(usrs);
-                    this.personaUso.Id = usrs[0].IdPersona;
+                    this.personaUso.IdPersona = usrs[0].IdPersona;
                     this.personaUso.Cedula = usrs[0].Cedula;
                     this.personaUso.Nombres = usrs[0].Nombres;
                     (<HTMLDivElement>document.getElementById('divAutorizadoPar')).style.display="none";
@@ -164,25 +185,34 @@ export class NewguiaComponent implements OnInit {
         );
     }
     cargarVehiculo() {
-        this.guiasSer.getVehiculo(this.VEHICULO, this.usuarioUso.token).subscribe(
-            res => {
-                if (res.estado) {
-                    var usrs = this.encriSer.desencriptar(res.res, false);
-                    console.log(usrs);
-                    this.vehiculouso.IdVehiculo = usrs[0].IdVehiculo;
-                    this.vehiculouso.Placa = usrs[0].Placa;
-                    this.vehiculouso.Tipo = usrs[0].Tipo;
-                    this.vehiculouso.IdPersonaPer = usrs[0].IdPersonaPer;
-                    (<HTMLDivElement>document.getElementById('divVehiculoPar')).style.display="none";
-                } else {
-                    $('#ModalNuevoVehiculo').modal('show');
+        
+       if(this.VEHICULO!=undefined){
+    
+      
+            this.guiasSer.getVehiculo(this.VEHICULO, this.usuarioUso.token).subscribe(
+                res => {
+                    if (res.estado) {
+                        var usrs = this.encriSer.desencriptar(res.res, false);
+                        console.log(usrs);
+                        this.vehiculouso.IdVehiculo = usrs[0].IdVehiculo;
+                        this.vehiculouso.Placa = usrs[0].Placa;
+                        this.vehiculouso.Tipo = usrs[0].Tipo;
+                        this.vehiculouso.IdPersonaPer = usrs[0].IdPersonaPer;
+                        (<HTMLDivElement>document.getElementById('divVehiculoPar')).style.display="none";
+                    } else {
+                        $('#ModalNuevoVehiculo').modal('show');
+                    }
+                },
+                err => {
+    
+                    console.log(err)
                 }
-            },
-            err => {
-
-                console.log(err)
-            }
-        );
+            );
+        
+        }else{
+            (<HTMLDivElement>document.getElementById('divVehiculoPar')).style.display="none";
+            this.VEHICULO='';
+        }
     }
     GuardarVehiculo() {
 
@@ -190,7 +220,7 @@ export class NewguiaComponent implements OnInit {
             IdVehiculo: '',
             Placa: (<HTMLInputElement>document.getElementById('txtPlacaNew')).value,
             Tipo: (<HTMLInputElement>document.getElementById('txtTipoNew')).value,
-            IdPersonaPer: this.personaUso.Id
+            IdPersonaPer: this.personaUso.IdPersona
         }
         if (vehi.Tipo.length > 0) {
             this.guiasSer.guardarVehiculo(vehi, this.usuarioUso.token).subscribe(
@@ -227,7 +257,7 @@ export class NewguiaComponent implements OnInit {
                     console.log(res);
                     if (res.estado) {
                         var Idusr = this.encriSer.desencriptar(res.res, false);
-                        this.personaUso.Id = Idusr;
+                        this.personaUso.IdPersona = Idusr;
                         this.personaUso.Cedula = ci;
                         this.personaUso.Nombres = nombre;
                         $('#ModalNuevaPersona').modal('hide');
@@ -260,10 +290,12 @@ export class NewguiaComponent implements OnInit {
                     this.areaOrigen.Canton = area[0].Canton;
                     this.areaOrigen.Codigo = area[0].Codigo;
                     this.areaOrigen.Descripcion = area[0].Descripcion;
-                    this.areaOrigen.Finalidad = area[0].Finalidad;
+                    this.areaOrigen.Direccion = area[0].Direccion;
                     this.areaOrigen.Parroquia = area[0].Parroquia;
                     this.areaOrigen.Provincia = area[0].Provincia;
-                    this.areaOrigen.Sitio = area[0].Sitio;
+                    this.areaOrigen.CodPredial = area[0].CodPredial;
+                    this.areaOrigen.IdPropietario=area[0].IdPropietario;
+                    this.areaOrigen.Propietario=area[0].Propietario;
                     (<HTMLDivElement>document.getElementById('divOrigenPar')).style.display="none";
        
                 } else {
@@ -279,7 +311,7 @@ export class NewguiaComponent implements OnInit {
     cargarDestino() {
         this.guiasSer.getArea(this.CODIGO_AREA_DESTINO, this.usuarioUso.token).subscribe(
             res => {
-                console.log(res);
+                console.log('Destino',res);
                 if (res.estado) {
                     var area = this.encriSer.desencriptar(res.res, false);
                     console.log(area);
@@ -287,10 +319,12 @@ export class NewguiaComponent implements OnInit {
                     this.areaDestino.Canton = area[0].Canton;
                     this.areaDestino.Codigo = area[0].Codigo;
                     this.areaDestino.Descripcion = area[0].Descripcion;
-                    this.areaDestino.Finalidad = area[0].Finalidad;
+                    this.areaDestino.Direccion = area[0].Direccion;
                     this.areaDestino.Parroquia = area[0].Parroquia;
                     this.areaDestino.Provincia = area[0].Provincia;
-                    this.areaDestino.Sitio = area[0].Sitio;
+                    this.areaDestino.CodPredial = area[0].CodPredial;
+                    this.areaDestino.IdPropietario=area[0].IdPropietario;
+                    this.areaDestino.Propietario=area[0].Propietario;
                 } else {
                     $('#ModalNuevaArea').modal('show');
                 }
@@ -307,10 +341,12 @@ export class NewguiaComponent implements OnInit {
             Canton: (<HTMLInputElement>document.getElementById('txtCantonNew')).value,
             Provincia: (<HTMLInputElement>document.getElementById('txtProvinciaNew')).value,
             Parroquia: (<HTMLInputElement>document.getElementById('txtParroquiaNew')).value,
-            Sitio: (<HTMLInputElement>document.getElementById('txtSitioKMNew')).value,
             Codigo: (<HTMLInputElement>document.getElementById('txtCodigoNew')).value,
-            Descripcion: '',
-            Finalidad: ''
+            CodPredial:(<HTMLInputElement>document.getElementById('txtCodPredialNew')).value,
+            Descripcion:(<HTMLInputElement>document.getElementById('txtDescripcionNew')).value,
+            Direccion:(<HTMLInputElement>document.getElementById('txtDireccionNew')).value,
+            IdPropietario:this.personaUso.IdPersona,
+            Propietario:{Cedula:'',IdPersona:'',Nombres:'',}
         }
         console.log(area);
         if (this.validarArea(area)) {
@@ -321,6 +357,7 @@ export class NewguiaComponent implements OnInit {
                     if (res.estado) {
                         var Idarea = this.encriSer.desencriptar(res.res, false);
                         area.IdArea = Idarea;
+                        area.Propietario=this.personaUso;
                         this.areaOrigen = area;
                         $('#ModalNuevaArea').modal('hide');
                         
@@ -351,8 +388,20 @@ export class NewguiaComponent implements OnInit {
             this.mesajeError('Ingrese Provincia');
             return false;
         }
-        if (area.Sitio.length == 0) {
-            this.mesajeError('Ingrese Sitio');
+        if (area.CodPredial.length == 0) {
+            this.mesajeError('Ingrese Codigo Predial');
+            return false;
+        }
+        if (area.Direccion.length == 0) {
+            this.mesajeError('Ingrese Direción');
+            return false;
+        }
+        if (area.Descripcion.length == 0) {
+            this.mesajeError('Ingrese Descripcion');
+            return false;
+        }
+        if (area.IdPropietario.length == 0) {
+            this.mesajeError('No se a ingresado un propietario');
             return false;
         }
         if (area.Codigo.length == 0) {
@@ -448,9 +497,9 @@ export class NewguiaComponent implements OnInit {
           (<HTMLInputElement>listaImput[index]).classList.remove('is-invalid');
           (<HTMLInputElement>listaImput[index]).classList.remove('is-valid');
       }
-      this.personaUso= { Id: '', Cedula: '', Nombres: '' };
-      this.areaDestino = { IdArea: '', Canton: '', Codigo: '', Descripcion: '', Finalidad: '', Parroquia: '', Provincia: '', Sitio: '' };
-      this.areaOrigen = { IdArea: '', Canton: '', Codigo: '', Descripcion: '', Finalidad: '', Parroquia: '', Provincia: '', Sitio: '' };
+      this.personaUso= { IdPersona: '', Cedula: '', Nombres: '' };
+      this.areaDestino = { IdArea: '', Canton: '', Codigo: '', Descripcion: '',  Parroquia: '', Provincia: '', CodPredial:'',Direccion:'',IdPropietario:'',Propietario:{Cedula:'',IdPersona:'',Nombres:''} };
+      this.areaOrigen = { IdArea: '', Canton: '', Codigo: '', Descripcion: '',  Parroquia: '', Provincia: '', CodPredial:'',Direccion:'',IdPropietario:'',Propietario:{Cedula:'',IdPersona:'',Nombres:''} };
       this.vehiculouso = { IdVehiculo: '', IdPersonaPer: '', Placa: '', Tipo: '' }
       this.listaDetalles = [];
       this.CSMI_No = '';
@@ -474,7 +523,7 @@ export class NewguiaComponent implements OnInit {
                 }
                 
             }
-            if(this.personaUso.Id.length==0){
+            if(this.personaUso.IdPersona.length==0){
                 
                 this.mesajeError('Persona no ingresada...!!');
                 return false;
@@ -485,8 +534,13 @@ export class NewguiaComponent implements OnInit {
                 return false;
             }
             if(this.vehiculouso.IdVehiculo.length==0){
-                this.mesajeError('Vehiculo no ingresado...!!');
-                return false;
+                if(this.VEHICULO.length>0){
+                    this.mesajeError('Vehiculo no ingresado...!!');
+                    return false;
+                }else{
+                    this.vehiculouso.IdVehiculo='2';
+                }
+                
             }
             if(this.listaDetalles.length==0){
                 this.mesajeError('Detalles incompletos...!!');
@@ -518,7 +572,7 @@ export class NewguiaComponent implements OnInit {
                 AreaOrigen:this.areaOrigen,
                 PersonaAutorizada:this.personaUso,
                 Vehiculo:this.vehiculouso,
-                LugarOrigen:(<HTMLInputElement>document.getElementById('txtLugarOrigen')).value,
+                LugarOrigen:'',
                 Ruta:(<HTMLInputElement>document.getElementById('txtRuta')).value,
                 TipoEmision:(<HTMLInputElement>document.getElementById('txtTipoEmicion')).value,
                 TotalProductos:this.TOTAL_PRODUCTOS,

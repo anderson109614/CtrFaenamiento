@@ -73,13 +73,15 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-md-6">
+                                                
                                                 <div class="mb-3 row">
-                                                    <label for="txtTipoEmicion" class="col-sm-2 col-form-label">Tipo de
-                                                        emision</label>
+                                                    <label for="txtCCCI"
+                                                        class="col-sm-2 col-form-label">CC/CI/RUC</label>
                                                     <div class="col-sm-10">
-                                                        <input class="form-control required"  id="txtTipoEmicion" (change)="changeValid()">
+                                                        <input class="form-control" id="txtCCCI" value="{{AUTORIZADO_A}}" disabled="true">
                                                     </div>
                                                 </div>
+                                                <br>
                                                 <div class="mb-3 row">
                                                     <label for="txtAutorizado"
                                                         class="col-sm-2 col-form-label">Autorizado</label>
@@ -93,29 +95,22 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3 row">
-                                                    <label for="txtFechaEmicion" class="col-sm-2 col-form-label">Fecha
-                                                        de
-                                                        emisión</label>
-                                                    <div class="col-sm-5">
-                                                        <input class="form-control required" type="date" id="txtFechaEmicion" (change)="ChangeFechaEmicion()" (change)="changeValid()">
-                                                        
-                                                    </div>
-                                                    <div class="col-sm-5">
-                                                        <input class="form-control required" type="time" id="txtHoraEmicion" (change)="ChangeHoraEmicion()" (change)="changeValid()" >
-                                                        
-                                                    </div>
-                                                </div>
-                                               
-                                                <div class="mb-3 row">
-                                                    <label for="txtCCCI"
-                                                        class="col-sm-2 col-form-label">CC/CI/RUC</label>
+                                                    <label for="txtTipoEmicion" class="col-sm-2 col-form-label" >Tipo:</label>
                                                     <div class="col-sm-10">
-                                                        <input class="form-control" id="txtCCCI" value="{{AUTORIZADO_A}}" disabled="true">
+                                                        <input class="form-control required"  id="txtTipoEmicion" list="listaTipos" (change)="changeValid()">
                                                     </div>
                                                 </div>
+                                                <datalist id="listaTipos">
 
-
+                                                    <option value="PROPIETARIO">
+                                                  
+                                                  </datalist>
+                                           
+                                                
+    
+    
                                             </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -142,19 +137,26 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="mb-3 row">
-                                                    <label for="txtLugarOrigen" class="col-sm-2 col-form-label">Lugar
-                                                        Origen</label>
-                                                        
+                                                    <label for="txtDescripcionDestino"
+                                                        class="col-sm-2 col-form-label">Descipción</label>
                                                     <div class="col-sm-10">
-                                                        <input class="form-control required" id="txtLugarOrigen" (change)="changeValid()">
+                                                        <input class="form-control" id="txtDescripcionDestino" value="{{areaOrigen.Descripcion}}" disabled="true">
                                                     </div>
                                                 </div>
                                                 <br>
                                                 <div class="mb-3 row">
-                                                    <label for="txtNombreOrigen"
-                                                        class="col-sm-2 col-form-label">Nombre</label>
+                                                    <label for="txtFinalidadDestino"
+                                                        class="col-sm-2 col-form-label">CC/CI/RUC</label>
                                                     <div class="col-sm-10">
-                                                        <input class="form-control" id="txtNombreOrigen" value="{{personaUso.Nombres}}" disabled="true">
+                                                        <input class="form-control" id="" value="{{areaOrigen.Propietario.Cedula}}" disabled="true">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="mb-3 row">
+                                                    <label for="txtFinalidadDestino"
+                                                        class="col-sm-2 col-form-label">Propietario</label>
+                                                    <div class="col-sm-10">
+                                                        <input class="form-control" id="" value="{{areaOrigen.Propietario.Nombres}}" disabled="true">
                                                     </div>
                                                 </div>
                                                 <br>
@@ -183,10 +185,18 @@
                                                 </div>
                                                 <br>
                                                 <div class="mb-3 row">
-                                                    <label for="txtSitioKM"
-                                                        class="col-sm-2 col-form-label">Sitio/KM</label>
+                                                    <label for="txtSitioKMDestino"
+                                                        class="col-sm-2 col-form-label">Dirección</label>
                                                     <div class="col-sm-10">
-                                                        <input class="form-control" id="txtSitioKM" value="{{areaOrigen.Sitio}}" disabled="true">
+                                                        <input class="form-control" id="txtSitioKMDestino" value="{{areaOrigen.Direccion}}" disabled="true">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="mb-3 row">
+                                                    <label for="txtFinalidadDestino"
+                                                        class="col-sm-2 col-form-label">Codigo Predial</label>
+                                                    <div class="col-sm-10">
+                                                        <input class="form-control" id="txtFinalidadDestino" value="{{areaOrigen.CodPredial}}" disabled="true">
                                                     </div>
                                                 </div>
                                                 <br>
@@ -213,14 +223,6 @@
                                     <div class="panel-body">
                                         <div class="col-md-12">
                                             <div class="mb-3 row">
-                                                <label for="txtFinalidadDestino"
-                                                    class="col-sm-2 col-form-label">Finalidad</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" id="txtFinalidadDestino" value="{{areaDestino.Finalidad}}" disabled="true">
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <div class="mb-3 row">
                                                 <label for="txtDescripcionDestino"
                                                     class="col-sm-2 col-form-label">Descipción</label>
                                                 <div class="col-sm-10">
@@ -228,6 +230,24 @@
                                                 </div>
                                             </div>
                                             <br>
+                                            <div class="mb-3 row">
+                                                <label for="txtFinalidadDestino"
+                                                    class="col-sm-2 col-form-label">CC/CI/RUC</label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" id="" value="{{areaDestino.Propietario.Cedula}}" disabled="true">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="mb-3 row">
+                                                <label for="txtFinalidadDestino"
+                                                    class="col-sm-2 col-form-label">Propietario</label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" id="" value="{{areaDestino.Propietario.Nombres}}" disabled="true">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            
+                                           
                                             <div class="mb-3 row">
                                                 <label for="txtProvinciaDestino"
                                                     class="col-sm-2 col-form-label">Provincia</label>
@@ -254,9 +274,17 @@
                                             <br>
                                             <div class="mb-3 row">
                                                 <label for="txtSitioKMDestino"
-                                                    class="col-sm-2 col-form-label">Sitio/KM</label>
+                                                    class="col-sm-2 col-form-label">Dirección</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" id="txtSitioKMDestino" value="{{areaDestino.Sitio}}" disabled="true">
+                                                    <input class="form-control" id="txtSitioKMDestino" value="{{areaDestino.Direccion}}" disabled="true">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="mb-3 row">
+                                                <label for="txtFinalidadDestino"
+                                                    class="col-sm-2 col-form-label">Codigo Predial</label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" id="txtFinalidadDestino" value="{{areaDestino.CodPredial}}" disabled="true">
                                                 </div>
                                             </div>
                                             <br>
@@ -348,6 +376,20 @@
                                         <h3 class="panel-title">Validez del Certificado</h3>
                                     </div>
                                     <div class="panel-body">
+                                        
+                                        <div class="mb-3 row">
+                                            <label for="txtFechaEmicion" class="col-sm-2 col-form-label">Fecha
+                                                de
+                                                emisión</label>
+                                            <div class="col-sm-5">
+                                                <input class="form-control required" type="date" id="txtFechaEmicion" (change)="ChangeFechaEmicion()" (change)="changeValid()">
+                                                
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input class="form-control required" type="time" id="txtHoraEmicion" (change)="ChangeHoraEmicion()" (change)="changeValid()" >
+                                                
+                                            </div>
+                                        </div>
                                         <div class="mb-3 row">
                                             <label for="txtFechaEmicion" class="col-sm-2 col-form-label">Inicia</label>
                                             <div class="col-sm-5">
@@ -498,40 +540,6 @@
     </div>
   </div>
 
-  <!-- Modal Nueva Persona-->
-<div class="modal fade" id="ModalNuevaPersona" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ingreso</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div class="mb-3 row">
-                <label for="txtCInewPwesona" class="col-sm-2 col-form-label">CI/CC:</label>
-                <div class="col-sm-10">
-                    <input class="form-control" id="txtCInewPwesona" disabled="true" maxlength="10" value="{{AUTORIZADO_A}}">
-                </div>
-            </div>
-            <br>
-            <div class="mb-3 row">
-                <label for="txtNombreNewPersona" class="col-sm-2 col-form-label">Nombre:</label>
-                <div class="col-sm-10">
-                    <input class="form-control" id="txtNombreNewPersona" (change)="changeValid()">
-                </div>
-            </div>
-            <br>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" (click)="GuardarPersona()">Guardar</button>
-        </div>
-      </div>
-    </div>
-  </div>
    <!-- Modal Nueva Area-->
 <div class="modal fade" id="ModalNuevaArea" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -545,6 +553,22 @@
         <div class="modal-body">
             <form action="">
                 
+                <div class="mb-3 row">
+                    <label for="txtProvinciaDestino"
+                        class="col-sm-2 col-form-label ">Propietario</label>
+                    <div class="col-sm-10">
+                        <input class="form-control " id="txtPropietarioNew" disabled="true" value="{{personaUso.Cedula}} {{personaUso.Nombres}}">
+                    </div>
+                </div>
+                <br>
+                <div class="mb-3 row">
+                    <label for="txtProvinciaDestino"
+                        class="col-sm-2 col-form-label ">Descripcion</label>
+                    <div class="col-sm-10">
+                        <input class="form-control " id="txtDescripcionNew">
+                    </div>
+                </div>
+                <br>
                
                 <div class="mb-3 row">
                     <label for="txtProvinciaDestino"
@@ -572,9 +596,17 @@
                 <br>
                 <div class="mb-3 row">
                     <label for="txtSitioKMDestino"
-                        class="col-sm-2 col-form-label">Sitio/KM</label>
+                        class="col-sm-2 col-form-label">Direccion</label>
                     <div class="col-sm-10">
-                        <input class="form-control" id="txtSitioKMNew">
+                        <input class="form-control" id="txtDireccionNew">
+                    </div>
+                </div>
+                <br>
+                <div class="mb-3 row">
+                    <label for="txtSitioKMDestino"
+                        class="col-sm-2 col-form-label">Codigo Predial</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="txtCodPredialNew">
                     </div>
                 </div>
                 <br>
@@ -642,8 +674,41 @@
       </div>
     </div>
   </div>
+ <!-- Modal Nueva Persona-->
+ <div class="modal fade" id="ModalNuevaPersona" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ingreso</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3 row">
+                <label for="txtCInewPwesona" class="col-sm-2 col-form-label">CI/CC:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="txtCInewPwesona" disabled="true" maxlength="10" value="{{AUTORIZADO_A}}">
+                </div>
+            </div>
+            <br>
+            <div class="mb-3 row">
+                <label for="txtNombreNewPersona" class="col-sm-2 col-form-label">Nombre:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="txtNombreNewPersona" (change)="changeValid()">
+                </div>
+            </div>
+            <br>
 
-     <!-- Modal ModalNuevoVehiculo-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="GuardarPersona()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+     <!-- Modal ModalNuevoDetalleCatidad-->
 <div class="modal fade" id="ModalAñadirDetalle" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -698,3 +763,5 @@
       </div>
     </div>
   </div>
+  
+ 
