@@ -16,6 +16,7 @@ import { AreasComponent } from './componentes/areas/areas.component';
 import { PersonasComponent } from './componentes/personas/personas.component';
 import { VehiculosComponent } from './componentes/vehiculos/vehiculos.component';
 import { ReportesComponent } from './componentes/reportes/reportes.component';
+import { DashboardComponent } from './componentes/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { ReportesComponent } from './componentes/reportes/reportes.component';
     AreasComponent,
     PersonasComponent,
     VehiculosComponent,
-    ReportesComponent
+    ReportesComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
