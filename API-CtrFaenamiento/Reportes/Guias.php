@@ -4,9 +4,10 @@ include("../coneccion.php");
 include("../Encript.php");
 include("../Validacion.php");
 $dbConn =  connect($db);
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && $auth) {
+//
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && $auth ) {
     try {
-        if (isset($_GET['usr'])) {
+        if (isset($_GET['where'])) {
             $sql = "SELECT IdGia
             ,Numero
             ,TipoEmision
@@ -22,53 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && $auth) {
             ,IdVehiculo as Vehiculo
             ,IdUsuario as Usuario
             FROM Gias
-            WHERE IdUsuario=?";
-            $decri= decrypt($_GET['usr']);
-            $obj= json_decode($decri, true);
-            $params = array($obj);
-            $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-            $stmt = sqlsrv_query( $dbConn, $sql , $params, $options );
-            $row_count = sqlsrv_num_rows( $stmt );
- 
-            $pila=array();
+             ";
             
             
-            //$res['estado']=$row_count;
-            if ($row_count === false || $row_count==0){
-                 $res['estado']=false;
-                 $res['mensaje']=sqlsrv_errors();
-                 $res['res']=$obj;
-            }else{
-                while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
-
-                    array_push($pila, $row);
-                }
-
-                $res['res']= encrypt($pila,false);
-            }
-            header("HTTP/1.1 200 OK");
-            sqlsrv_close($dbConn);        
-            echo json_encode($res);
-	    
-	
-        }else{
-             $sql = "SELECT IdGia
-            ,Numero
-            ,TipoEmision
-            ,FechaEmision
-            ,FechaInicio
-            ,FechaFinaliza
-            ,Ruta
-            ,IdAreaOrigen as AreaOrigen
-            ,IdAreaDestino as AreaDestino
-            ,LugarOrigen
-            ,IdPersonaAutorizada as PersonaAutorizada
-            ,TotalProductos
-            ,IdVehiculo as Vehiculo
-            ,IdUsuario as Usuario
-            ,IdGia as listaDetalles
-            FROM Gias
-            WHERE Eliminado=0";
+            $decri= decrypt($_GET['where']);
+            $sql=$sql.$decri;
+            //$obj= json_decode($decri, true);
+            
             $params = array();
             $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
             $stmt = sqlsrv_query( $dbConn, $sql , $params, $options );
@@ -80,7 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && $auth) {
             //$res['estado']=$row_count;
             if ($row_count === false || $row_count==0){
                  $res['estado']=false;
-                 $res['mensaje']='no se encontraron registros.'; 
+                 $res['mensaje']=sqlsrv_errors();
+                // $res['res']=$obj;
             }else{
                 while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
                     $res['mensaje']=$row['AreaOrigen']; 
@@ -90,16 +52,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && $auth) {
                     $row['Vehiculo']=getVehiculo($row['Vehiculo'],$dbConn);
                     $row['Usuario']=getUsuario($row['Usuario'],$dbConn);
                     $row['listaDetalles']=getDetalles($row['IdGia'],$dbConn);
-                    
                     array_push($pila, $row);
                 }
+
                 $res['res']= encrypt($pila,false);
             }
             header("HTTP/1.1 200 OK");
             sqlsrv_close($dbConn);        
             echo json_encode($res);
-
-        }  
+	    
+	
+        
+        }
     } catch (Exception $e) {
         $res['estado']=false;
         $res['mensaje']=$e->getMessage();
@@ -255,72 +219,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $auth) {
         $decri= decrypt($input['value']);
         $obj= json_decode($decri, false);
        
-        $sql = "INSERT INTO Gias
-        (Numero
-        ,TipoEmision
-        ,FechaEmision
-        ,FechaInicio
-        ,FechaFinaliza
-        ,Ruta
-        ,IdAreaOrigen
-        ,IdAreaDestino
-        ,LugarOrigen
-        ,IdPersonaAutorizada
-        ,TotalProductos        
-        ,IdVehiculo
-        ,IdUsuario
-        ,Eliminado
-        ,FechaRegistro)
-  VALUES
-        (?
-        ,?
-        ,?
-        ,?
-        ,?
-        ,?
-        ,?
-        ,?
-        ,?
-        ,?
-        ,?    
-        ,?
-        ,?
-        ,0
-        ,getdate());
-        SELECT SCOPE_IDENTITY() AS id;";
+        $sql = "INSERT INTO Areas
+                (Codigo
+                ,Provincia
+                ,Canton
+                ,Parroquia
+                ,Direccion
+                ,CodPredial
+                ,Descripcion
+                ,IdPropietario
+               ) 
+                VALUES
+                (?
+                ,?
+                ,?
+                ,?
+                ,?
+                ,?
+                ,?
+                ,?
+                );
+                SELECT SCOPE_IDENTITY() AS id;";
         //$res['res']=$decri; 
-        $params = array($obj->Numero,
-                        $obj->TipoEmision,
-                        $obj->FechaEmision->date, 
-                        $obj->FechaInicio->date,
-                        $obj->FechaFinaliza->date,
-                        $obj->Ruta,
-                        $obj->AreaOrigen->IdArea,
-                        $obj->AreaDestino->IdArea, 
-                        $obj->LugarOrigen,
-                        $obj->PersonaAutorizada->IdPersona,
-                        $obj->TotalProductos,
-                        $obj->Vehiculo->IdVehiculo,
-                        $obj->Usuario->IdUsuario
-                    );
+        $params = array($obj->Codigo
+        ,$obj->Provincia
+        ,$obj->Canton
+        ,$obj->Parroquia
+        ,$obj->Direccion
+        ,$obj->CodPredial
+        ,$obj->Descripcion
+        ,$obj->IdPropietario);
 
         $stmt = sqlsrv_query( $dbConn, $sql , $params );
 
            
         if (!$stmt){
              $res['estado']=false;
-             $res['mensaje']=sqlsrv_errors();              
+             $res['mensaje']=sqlsrv_errors(); 
+             
             $res['res']= json_encode($obj);
         }else{
            
-            sqlsrv_next_result($stmt);
-            sqlsrv_fetch($stmt);
-            $id=sqlsrv_get_field($stmt, 0);
-            $detalles=$obj->listaDetalles;
-            for ($i = 0; $i < count($detalles); $i++) {
-                IngresarDetalles($detalles[$i],$id,$dbConn);
-            }
-            $res['res']= encrypt($id,true);
+            
+            $res['res']= 'Actualisacion Correcta';
 
             
         }
@@ -337,32 +278,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $auth) {
         echo json_encode($res);
     }
 
-}
-
-function IngresarDetalles($det,$id,$dbConn){
-    try{
-    
-        
-
-    $sql = "INSERT INTO DetalleGia
-    (Producto
-    ,Cantidad
-    ,IdGia)
-    VALUES
-    (?,?,?)";
-           
-    $params = array($det->Producto,
-                    $det->Cantidad,
-                    $id);
-    $stmt = sqlsrv_query( $dbConn, $sql , $params );
-        if($stmt){
-            return true;
-        }else{
-            return false;
-        }
-    } catch (Exception $e) {
-        return false;
-    }
 }
 if ($_SERVER['REQUEST_METHOD'] == 'PUT' && $auth) {
     
@@ -371,76 +286,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT' && $auth) {
         $decri= decrypt($input['value']);
         $obj= json_decode($decri, false);
        
-        $sql = "UPDATE Gias
-        SET 
-           TipoEmision = ?
-           ,FechaEmision = ?
-           ,FechaInicio = ?
-           ,Ruta = ?
-           ,LugarOrigen = ?
-           
-      WHERE IdGia=?";
+        $sql = "UPDATE Areas
+                SET 
+                Codigo=?
+                ,Provincia=?
+                ,Canton=?
+                ,Parroquia=?
+                ,Direccion=?
+                ,CodPredial=?
+                ,Descripcion=?
+                ,IdPropietario=?
+                WHERE IdArea=?
+               ";
         //$res['res']=$decri; 
-        $params = array($obj->TipoEmision,
-                        $obj->FechaEmision->date, 
-                        $obj->FechaInicio->date,
-                        $obj->Ruta,
-                        $obj->LugarOrigen,
-                        $obj->IdGia
-                    );
+        $params = array($obj->Codigo
+        ,$obj->Provincia
+        ,$obj->Canton
+        ,$obj->Parroquia
+        ,$obj->Direccion
+        ,$obj->CodPredial
+        ,$obj->Descripcion
+        ,$obj->IdPropietario
+        ,$obj->IdArea);
 
         $stmt = sqlsrv_query( $dbConn, $sql , $params );
 
            
         if (!$stmt){
              $res['estado']=false;
-             $res['mensaje']=sqlsrv_errors();              
+             $res['mensaje']=sqlsrv_errors(); 
+             
             $res['res']= json_encode($obj);
         }else{
            
-            $res['mensaje']='Actualizacion Correcta';   
-
-            
-        }
-        header("HTTP/1.1 200 OK");
-        sqlsrv_close($dbConn);        
-        echo json_encode($res);
-
-
-
-        
-    } catch (Exception $e) {
-        $res['estado']=false;
-        $res['mensaje']=$e->getMessage();
-        echo json_encode($res);
-    }
-
-}
-if ($_SERVER['REQUEST_METHOD'] == 'DELETE' && $auth) {
-    
-    try {
-        
-        $sql = "UPDATE Gias
-        SET 
-            Eliminado = 1
-           
-           
-      WHERE IdGia=?";
-        //$res['res']=$decri; 
-        $params = array(
-                     $_GET['id']
-                    );
-
-        $stmt = sqlsrv_query( $dbConn, $sql , $params );
-
-           
-        if (!$stmt){
-             $res['estado']=false;
-             $res['mensaje']=sqlsrv_errors();              
-            $res['res']= json_encode($obj);
-        }else{
-           
-            $res['mensaje']=$_GET['id'];   
+            sqlsrv_next_result($stmt);
+            sqlsrv_fetch($stmt);
+            $res['res']= encrypt(sqlsrv_get_field($stmt, 0),true);
 
             
         }

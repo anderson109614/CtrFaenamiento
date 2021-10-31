@@ -3,3 +3,6 @@ ng g m pages/login -m=app --route login
 npm install local-storage --save
 
 npm install angular2-qrscanner --save
+
+npm install pdfmake
+npm i --save-dev @types/pdfmake

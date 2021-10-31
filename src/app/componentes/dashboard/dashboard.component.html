@@ -1,1 +1,160 @@
-<p>dashboard works!</p>
+<div class="inner-block">
+    <!--market updates updates-->
+    <div class="market-updates">
+        <div class="col-md-4 market-update-gd">
+            <div class="market-update-block clr-block-1" routerLink="usuarios">
+                <div class="col-md-8 market-update-left">
+                    <h3>{{NumeroUsuarios}}</h3>
+                    <h4>Usuarios Registrados</h4>
+                    <!-- <p>Other hand, we denounce</p>-->
+                </div>
+                <div class="col-md-4 market-update-right">
+                    <i class="fa fa-file-text-o"> </i>
+                    <!--<i class="fa fa-file-text-o"> </i>-->
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+        <div class="col-md-4 market-update-gd" routerLink="guias">
+            <div class="market-update-block clr-block-2">
+                <div class="col-md-8 market-update-left">
+                    <h3>{{TotalGias}}</h3>
+                    <h4>Total de Gias</h4>
+
+                </div>
+                <div class="col-md-4 market-update-right">
+                    <i class="fa fa-eye"> </i>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+        <div class="col-md-4 market-update-gd" routerLink="guias">
+            <div class="market-update-block clr-block-3">
+                <div class="col-md-8 market-update-left">
+                    <h3>{{TotalGiasHoy}}</h3>
+                    <h4>Nevas Gias</h4>
+
+                </div>
+                <div class="col-md-4 market-update-right">
+                    <i class="fa fa-envelope-o"> </i>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <!--market updates end here-->
+    <!--mainpage chit-chating-->
+    <div class="chit-chat-layer1">
+        <div class="col-md-6 chit-chat-layer1-left">
+            <div class="work-progres">
+                <div class="chit-chat-heading">
+                   Usuarios con mayores ingresos
+                </div>
+                <div class="table-responsive" style="height: 340px;">
+                    <div id="dtDynamicVerticalScrollExample" class="table-wrapper-scroll-y my-custom-scrollbar">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Cedula</th>
+                                    <th>Nombre</th>
+
+                                    <th>Apellidos</th>
+                                    <th>Total Gias</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let obj of ListaConeoPorUsuarios;index as i;">
+                                    <td>{{i}}</td>
+                                    <td>{{obj.Cedula}}</td>
+                                    <td>{{obj.Nombres}}</td>
+                                    <td>{{obj.Apellidos}}</td>
+
+                                    <td><span class="badge badge-info">{{obj.Cantidad}}</span></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 chit-chat-layer1-rit">
+            <div class="glocy-chart">
+                <div class="span-2c">
+                    <h3 class="tlt">Sales Analytics</h3>
+                    <canvas id="bar" height="300" width="400" style="width: 400px; height: 300px;"></canvas>
+                    <script>
+
+
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="chart-layer-2">
+
+        <div class="col-md-6 chart-layer2-right">
+            <div class="prograc-blocks">
+                <!--Progress bars-->
+                <div class="home-progres-main">
+                    <h3>Total Ingresos</h3>
+                </div>
+                <div class='bar_group'>
+                    <a *ngFor="let obj of ListaConeoPorProductos;index as i;">
+                        <div class="task-info">
+                            <span class="task-desc">{{obj.Producto}}</span><span
+                                class="percentage">{{obj.Cantidades}}</span>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="progress progress-striped active">
+
+                            <div class="bar green" id="progress-{{obj.Producto}}" style="width:{{obj.Porsentaje}}%;">
+                            </div>
+                        </div>
+                    </a>
+
+
+
+                </div>
+            </div>
+            <div class="col-md-6 chart-layer2-left">
+
+            </div>
+
+            <div class="clearfix"> </div>
+        </div>
+        <div class="col-md-6 chart-layer2-right">
+            <div class="prograc-blocks">
+                <!--Progress bars-->
+                <div class="home-progres-main">
+                    <h3>Ingreso Diario</h3>
+                </div>
+                <div class='bar_group'>
+                    <a *ngFor="let obj of ListaConeoPorProductosHoy;index as i;">
+                        <div class="task-info">
+                            <span class="task-desc">{{obj.Producto}}</span><span
+                                class="percentage">{{obj.Cantidades}}</span>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="progress progress-striped active">
+
+                            <div class="bar green" id="progress-{{obj.Producto}}" style="width:{{obj.Porsentaje}}%;">
+                            </div>
+                        </div>
+                    </a>
+
+
+
+                </div>
+            </div>
+            <div class="col-md-6 chart-layer2-left">
+
+            </div>
+
+            <div class="clearfix"> </div>
+        </div>
+    </div>

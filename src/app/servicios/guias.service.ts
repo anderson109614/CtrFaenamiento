@@ -64,6 +64,11 @@ export class GuiasService {
     return this.http.get<any>(this.url + 'Guias/Vehiculo.php?pla='+val,{ headers: { 'token': tok } })
     
   }
+  getVehiculos(tok:string){
+    
+    return this.http.get<any>(this.url + 'Guias/Vehiculo.php',{ headers: { 'token': tok } })
+    
+  }
   guardarVehiculo(vehi:Vehiculo,tok:string)
   {
     

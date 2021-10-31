@@ -1,1 +1,719 @@
-<p>reportes works!</p>
+<div class="chit-chat-layer1">
+    <div class="col-md-12 chit-chat-layer1-left">
+        <div class="work-progres">
+            <div class="chit-chat-heading">
+                Gias
+            </div>
+            <div class="mail-toolbar clearfix">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="portlet-grid  panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h3 class="panel-title">AUTORIZADO PARA MOVILIZAR</h3>
+                                    </div>
+                                    <div class="col-md-2 parpadea" style="text-align: right; color: red;display: none;"
+                                        id="divAutorizadoPar" data-toggle="modal" data-target="#ModalNuevaPersona">
+
+                                        <i class="fa fa-asterisk" id="parAutorizado" aria-hidden="true"
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="Añadir persona autorizada"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="mb-3 row">
+
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtCCCI" value="{{PersonaSelec.Nombres}} {{PersonaSelec.Apellidos}}"
+                                                    disabled="true">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button class="btn " (click)="cklModalPersonas()"><i
+                                                        class="fa fa-user"></i></button>
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="portlet-grid  panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h3 class="panel-title">USUARIO</h3>
+                                    </div>
+                                    <div class="col-md-2 parpadea" style="text-align: right; color: red;display: none;"
+                                        id="divAutorizadoPar" data-toggle="modal" data-target="#ModalNuevaPersona">
+
+                                        <i class="fa fa-asterisk" id="parAutorizado" aria-hidden="true"
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="Añadir persona autorizada"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="mb-3 row">
+
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtCCCI" value="{{usuarioSelec.Nombres}} {{usuarioSelec.Apellidos}}"
+                                                    disabled="true">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button class="btn " (click)="cklModalUsuarios()"><i
+                                                        class="fa fa-user"></i></button>
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="portlet-grid  panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h3 class="panel-title">FECHA DE EMISIÓN</h3>
+                                    </div>
+                                    <div class="col-md-2 parpadea" style="text-align: right; color: red;display: none;"
+                                        id="divAutorizadoPar" data-toggle="modal" data-target="#ModalNuevaPersona">
+
+                                        <i class="fa fa-asterisk" id="parAutorizado" aria-hidden="true"
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="Añadir persona autorizada"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="mb-3 row">
+
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="date" id="txtFechaEmisionI" (change)="ChangeFechaEmicion()" >
+                                                
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="date" id="txtFechaEmisionT"  disabled="true">
+                                                
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="portlet-grid  panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h3 class="panel-title">AREA DE ORIGEN</h3>
+                                    </div>
+                                    <div class="col-md-2 parpadea" style="text-align: right; color: red;display: none;"
+                                        id="divAutorizadoPar" data-toggle="modal" data-target="#ModalNuevaPersona">
+
+                                        <i class="fa fa-asterisk" id="parAutorizado" aria-hidden="true"
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="Añadir persona autorizada"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="mb-3 row">
+
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtCCCI" value="{{areaOrigenSelec.Codigo}}"
+                                                    disabled="true">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button class="btn " (click)="cklModalAreaOrigen()"><i
+                                                        class="fa fa-user"></i></button>
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="portlet-grid  panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h3 class="panel-title"><Var>VEHICULO</Var></h3>
+                                    </div>
+                                    <div class="col-md-2 parpadea" style="text-align: right; color: red;display: none;"
+                                        id="divAutorizadoPar" data-toggle="modal" data-target="#ModalNuevaPersona">
+
+                                        <i class="fa fa-asterisk" id="parAutorizado" aria-hidden="true"
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="Añadir persona autorizada"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="mb-3 row">
+
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="txtCCCI" value="{{vehiculoSelec.Placa}}"
+                                                    disabled="true">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button class="btn " (click)="cklModalVehiculos()"><i
+                                                        class="fa fa-user"></i></button>
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="portlet-grid  panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h3 class="panel-title">FECHA INICIA</h3>
+                                    </div>
+                                    <div class="col-md-2 parpadea" style="text-align: right; color: red;display: none;"
+                                        id="divAutorizadoPar" data-toggle="modal" data-target="#ModalNuevaPersona">
+
+                                        <i class="fa fa-asterisk" id="parAutorizado" aria-hidden="true"
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="Añadir persona autorizada"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="mb-3 row">
+
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="date" id="txtFechaInicaI"  (change)="ChangeFechaInicia()" >
+                                                
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="date" id="txtFechaInicaT"  disabled="true">
+                                                
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        
+                    </div>
+                    <div class="col-md-3">
+                       
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="portlet-grid  panel-primary" style="width: 100%;">
+                            <div class="panel-heading">
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h3 class="panel-title">FECHA FINALIZA</h3>
+                                    </div>
+                                    <div class="col-md-2 parpadea" style="text-align: right; color: red;display: none;"
+                                        id="divAutorizadoPar" data-toggle="modal" data-target="#ModalNuevaPersona">
+
+                                        <i class="fa fa-asterisk" id="parAutorizado" aria-hidden="true"
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="Añadir persona autorizada"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="mb-3 row">
+
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="date" id="txtFechaFinalI" (change)="ChangeFechaTermina()" >
+                                                
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="date" id="txtFechaFinalT" disabled="true" >
+                                                
+                                            </div>
+                                            
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <!--search-box-->
+                        <div class="search-box" style="width: 500px;">
+                            <form>
+                                <input type="text" placeholder="Search..." required="" (keyup)="busquedaGuias($event)">
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-success btn-lg" style="margin-right: 10px;" id="" (click)="clkgenerarConsulta()"  >Generar</button>
+                        <button type="button" class="btn btn-primary btn-lg" style="margin-right: 10px;" id="" (click)="clkLimpiar()"  >Limpiar</button>
+                        <button type="button" class="btn btn-danger btn-lg" style="margin-right: 10px;" id="" (click)="clkverPdf()"  >PDF</button>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="table-responsive">
+                <div id="dtDynamicVerticalScrollExample" class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <!--table-wrapper-scroll-y my-custom-scrollbar -->
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Numero</th>
+                                <th>Origen</th>
+                                <th>Destino</th>
+
+                                <th>Autorizado a</th>
+                                <th>Vehiculo</th>
+                                <th>Total</th>
+                                <th>Valido Hasta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let guia of listaGias;index as i;">
+                                <td>{{guia.Numero}}</td>
+                                <td>{{guia.AreaOrigen.Codigo}}</td>
+                                <td>{{guia.AreaDestino.Codigo}}</td>
+                                <td>{{guia.PersonaAutorizada.Nombres}}</td>
+                                <td>{{guia.Vehiculo.Placa}}</td>
+                                <td>{{guia.TotalProductos}}</td>
+                                <td>{{guia.FechaFinaliza.date}}</td>
+
+                                <!--
+                                   <td><span class="label label-danger">in progress</span></td>
+                                <td><span class="badge badge-info">50%</span></td> 
+                                <td>
+                                    <button class="btn btn-default" style="margin-right: 5px;"
+                                        (click)="cklActualizar(guia)">
+                                        <i class="fa fa-pencil-square-o icon_9"></i>
+                                    </button>
+                                    <button class="btn btn-default" (click)="clickEliminar(guia)">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+
+
+                                </td>
+                                -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Modal Loista personas -->
+<div class="modal  " id="ModalPersonas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Personas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="search-box" style="width: 500px;">
+                            <form>
+                                <input type="text" placeholder="Search..." required="" (keyup)="busquedaPersonas($event)">
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <div class="table-responsive">
+                            <div id="dtDynamicVerticalScrollExample" class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <!--table-wrapper-scroll-y my-custom-scrollbar -->
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+            
+                                            <th>Cedula</th>
+                                            <th>Nombres</th>
+                                            
+            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let persona of listaPersonas;index as i;">
+            
+                                            <td>{{persona.Cedula}}</td>
+                                            <td>{{persona.Nombres}} </td>
+                                            
+                                            <td>
+                                                <button class="btn btn-default" style="margin-right: 5px;" data-dismiss="modal"
+                                                    (click)="SelecPersona(persona)">
+                                                    <i class="fa fa-arrow-down icon_9"></i>
+                                                </button>
+            
+            
+            
+                                            </td>
+                                            <!-- <button class="btn btn-default" (click)="clickEliminar(area)">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                               <td><span class="label label-danger">in progress</span></td>
+                                            <td><span class="badge badge-info">50%</span></td> -->
+            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Loista Usuarios -->
+<div class="modal  " id="ModalUsuarios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Personas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="search-box" style="width: 500px;">
+                            <form>
+                                <input type="text" placeholder="Search..." required="" (keyup)="busquedaUsuario($event)">
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <div class="table-responsive">
+                            <div id="dtDynamicVerticalScrollExample" class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <!--table-wrapper-scroll-y my-custom-scrollbar -->
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+            
+                                            <th>Cedula</th>
+                                            <th>Nombres</th>
+                                            
+            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let user of listaUsuarios;index as i;">
+            
+                                            <td>{{user.Cedula}}</td>
+                                            <td>{{user.Nombres}} {{user.Apellidos}} </td>
+                                            
+                                            <td>
+                                                <button class="btn btn-default" style="margin-right: 5px;" data-dismiss="modal"
+                                                    (click)="SelecUsuario(user)">
+                                                    <i class="fa fa-arrow-down icon_9"></i>
+                                                </button>
+            
+            
+            
+                                            </td>
+                                            <!-- <button class="btn btn-default" (click)="clickEliminar(area)">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                               <td><span class="label label-danger">in progress</span></td>
+                                            <td><span class="badge badge-info">50%</span></td> -->
+            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Loista Area Origen -->
+<div class="modal  " id="ModalareaOrigen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Personas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="search-box" style="width: 500px;">
+                            <form>
+                                <input type="text" placeholder="Search..." required="" (keyup)="busquedaArea($event)">
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <div class="table-responsive">
+                            <div id="dtDynamicVerticalScrollExample" class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <!--table-wrapper-scroll-y my-custom-scrollbar -->
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Codigo</th>
+                                            <th>Descripcion</th>
+                                            <th>Provincia</th>
+                                            <th>Canton</th>
+                                            <th>Parroquia</th>
+                                            
+            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let area of listaAreas;index as i;">
+            
+                                            <td>{{area.Codigo}}</td>
+                                            <td>{{area.Descripcion}}  </td>
+                                            <td>{{area.Provincia}}</td>
+                                            <td>{{area.Canton}}  </td>
+                                            <td>{{area.Parroquia}}</td>
+                                            
+                                            
+                                            <td>
+                                                <button class="btn btn-default" style="margin-right: 5px;" data-dismiss="modal"
+                                                    (click)="SelecAreaOrigen(area)">
+                                                    <i class="fa fa-arrow-down icon_9"></i>
+                                                </button>
+            
+            
+            
+                                            </td>
+                                            <!-- <button class="btn btn-default" (click)="clickEliminar(area)">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                               <td><span class="label label-danger">in progress</span></td>
+                                            <td><span class="badge badge-info">50%</span></td> -->
+            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Loista Vehiculos-->
+<div class="modal  " id="ModalVehiculos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Personas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="search-box" style="width: 500px;">
+                            <form>
+                                <input type="text" placeholder="Search..." required="" (keyup)="busquedaVehiculo($event)">
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <div class="table-responsive">
+                            <div id="dtDynamicVerticalScrollExample" class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <!--table-wrapper-scroll-y my-custom-scrollbar -->
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Placa</th>
+                                            <th>Tipo</th>
+                                            
+                                            
+            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let vehiculo of listavehiculos;index as i;">
+            
+                                            <td>{{vehiculo.Placa}}</td>
+                                            <td>{{vehiculo.Tipo}}  </td>
+                                            
+                                            
+                                            
+                                            <td>
+                                                <button class="btn btn-default" style="margin-right: 5px;" data-dismiss="modal"
+                                                    (click)="SelecVehiculo(vehiculo)">
+                                                    <i class="fa fa-arrow-down icon_9"></i>
+                                                </button>
+            
+            
+            
+                                            </td>
+                                            <!-- <button class="btn btn-default" (click)="clickEliminar(area)">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                               <td><span class="label label-danger">in progress</span></td>
+                                            <td><span class="badge badge-info">50%</span></td> -->
+            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
