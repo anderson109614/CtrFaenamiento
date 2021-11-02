@@ -526,19 +526,19 @@ export class ReportesComponent implements OnInit {
           body: [
             [ {
               // in browser is supported loading images via url from reference by name in images
-              image: 'snow2',
-              fit: [50, 50],
-              margin:[20,30,0,0]
+             // image: 'snow2',
+             // fit: [50, 50],
+             // margin:[20,30,0,0]
             },
              [
               {
-              text:'UNIVERSIDAD TÉCNICA DE AMBATO',
+              text:'Centro de Faenamiento N.T',
               fontSize: 11,
               bold: true,
               alignment: 'center',
               margin: [0, 30, 0, 0]},
               {
-                text:'FACULTAD DE INGENIERÍA EN SISTEMAS, ELECTRÓNICA E INDUSTRIAL',
+                text:'',
                 fontSize: 11,
                 bold: true,
                 alignment: 'center',
@@ -546,7 +546,7 @@ export class ReportesComponent implements OnInit {
               
               },
               {
-                text:'Ciudadela Universitaria (Predios Huachi) Telfax: 03-2851894 – 2411537 Correo Electrónico: fisei@uta.edu.ec',
+                text:'TUNGURAHU - TISALEO',
                 fontSize: 9,
                 bold: false,
                 alignment: 'center',
@@ -554,7 +554,7 @@ export class ReportesComponent implements OnInit {
               
               },
               {
-                text:'AMBATO – ECUADOR',
+                text:'',
                 fontSize: 9,
                 bold: true,
                 alignment: 'center',
@@ -565,9 +565,9 @@ export class ReportesComponent implements OnInit {
             
             , {
               // in browser is supported loading images via url from reference by name in images
-              image: 'snow',
-              fit: [50, 50],
-              margin:[0,30,20,0]
+             // image: 'snow',
+             // fit: [50, 50],
+             // margin:[0,30,20,0]
             }],
            [
              {},
@@ -587,8 +587,8 @@ export class ReportesComponent implements OnInit {
       images: {
            
         // in browser is supported loading images via url (https or http protocol) (minimal version: 0.1.67)
-        snow: 'https://pbs.twimg.com/profile_images/1239567185552564226/w2UlJXDx_400x400.jpg',
-        snow2:'https://2.bp.blogspot.com/_sofFCaqBxwM/TDeaA1kViSI/AAAAAAAAAAc/RvclUSb35fs/w1200-h630-p-k-no-nu/SELLO+FISEI2008.jpg'
+       // snow: '',
+       // snow2:''
       },
       content: [
          ...jsonGias,
