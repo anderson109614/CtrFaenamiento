@@ -36,7 +36,7 @@
                                 Certificado de Movilización
                             </div>
                             <div class="col-md-6"  style="text-align: right;">
-                                <button type="button" class="btn btn-success btn-lg" style="margin-right: 10px;" id="btnGuardar" (click)="clkGuardar()"  disabled>Guardar</button>
+                                <button type="button" class="btn btn-success btn-lg" style="margin-right: 10px;" id="btnGuardar" (click)="clkGuardar()" disabled >Guardar</button>
                                 
                                 <button type="button" class="btn btn-dark btn-lg"  id="btnLimpiar" (click)="clkLimpiar()" disabled>Limpiar</button>
                             </div>
@@ -764,4 +764,56 @@
     </div>
   </div>
   
- 
+      <!-- Modalbioseguridad-->
+<div class="modal fade" id="ModalBioseguridad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Protocolos de Bioseguridad</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="">
+                
+                <br>
+                <div class="mb-3 row">
+                    <label for="txtPlacaNew"
+                        class="col-sm-2 col-form-label ">Desinfección</label>
+                    <div class="col-sm-10">
+                        <input class="form-control " type="checkbox" id="checkDesinfecion"  >
+                    </div>
+                </div>
+                <br>
+                <div class="mb-3 row">
+                    <label for="txtPlacaNew"
+                        class="col-sm-2 col-form-label ">Reposo</label>
+                    <div class="col-sm-10">
+                        <input class="form-control " type="checkbox" id="checkReposo" >
+                    </div>
+                </div>
+                <br>
+                <div class="mb-3 row">
+                    <label for="txtPlacaNew"
+                        class="col-sm-2 col-form-label ">Hidratación</label>
+                    <div class="col-sm-10">
+                        <input class="form-control " type="checkbox" id="checkHidratacion" >
+                    </div>
+                </div>
+                
+                
+               
+                
+            </form>
+            
+           
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="clkGuardarConBioseguridad()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>

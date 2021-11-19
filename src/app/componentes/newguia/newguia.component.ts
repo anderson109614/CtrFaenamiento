@@ -561,49 +561,75 @@ VEHICULO:
             
     }
     clkGuardar(){
+       /*   $('#ModalBioseguridad').modal('show');*/
+          
        if(this.validarGuardado()){
-            let guia:Guia={
-                IdGia:'',
-                Numero:(<HTMLInputElement>document.getElementById('txtNumeroEmicion')).value,
-                FechaEmision:{date: (<HTMLInputElement>document.getElementById('txtFechaEmicion')).value+' '+(<HTMLInputElement>document.getElementById('txtHoraEmicion')).value} ,
-                FechaFinaliza:{date:this.VALIDO_HASTA_fecha+' '+this.VALIDO_HASTA_Hora}  ,
-                FechaInicio: {date:(<HTMLInputElement>document.getElementById('txtFechaInicia')).value+' '+(<HTMLInputElement>document.getElementById('txtHoraInia')).value} ,
-                AreaDestino:this.areaDestino,
-                AreaOrigen:this.areaOrigen,
-                PersonaAutorizada:this.personaUso,
-                Vehiculo:this.vehiculouso,
-                LugarOrigen:'',
-                Ruta:(<HTMLInputElement>document.getElementById('txtRuta')).value,
-                TipoEmision:(<HTMLInputElement>document.getElementById('txtTipoEmicion')).value,
-                TotalProductos:this.TOTAL_PRODUCTOS,
-                listaDetalles:this.listaDetalles,
-                Usuario:this.usuarioUso
-
-            };
-            this.guiasSer.guardarGuia(guia, this.usuarioUso.token).subscribe(
-                res => {
-                    console.log(res);
-                    if (res.estado) {
-                        var re = this.encriSer.desencriptar(res.res, false);
-                        console.log(re);
-                        this.clkLimpiar();
-                       
-           
-                    }else{
-                        this.mesajeError('Error al guardar informacion...!!');
-                    }
-                },
-                err => {
-    
-                    console.log(err)
-                }
-            );
+        $('#ModalBioseguridad').modal('show');
             
 
 
        }
 
     }
+    validarCheckBioseguridad1(){
+        if(!(<HTMLInputElement>document.getElementById('checkDesinfecion')).checked){
+            return false;
+        }
+        if(!(<HTMLInputElement>document.getElementById('checkReposo')).checked){
+            return false;
+        }
+        if(!(<HTMLInputElement>document.getElementById('checkHidratacion')).checked){
+            return false;
+        }
+        return true;
+    }
+    clkGuardarConBioseguridad(){
+        if(this.validarCheckBioseguridad1()){
+             let guia:Guia={
+                 IdGia:'',
+                 Numero:(<HTMLInputElement>document.getElementById('txtNumeroEmicion')).value,
+                 FechaEmision:{date: (<HTMLInputElement>document.getElementById('txtFechaEmicion')).value+' '+(<HTMLInputElement>document.getElementById('txtHoraEmicion')).value} ,
+                 FechaFinaliza:{date:this.VALIDO_HASTA_fecha+' '+this.VALIDO_HASTA_Hora}  ,
+                 FechaInicio: {date:(<HTMLInputElement>document.getElementById('txtFechaInicia')).value+' '+(<HTMLInputElement>document.getElementById('txtHoraInia')).value} ,
+                 AreaDestino:this.areaDestino,
+                 AreaOrigen:this.areaOrigen,
+                 PersonaAutorizada:this.personaUso,
+                 Vehiculo:this.vehiculouso,
+                 LugarOrigen:'',
+                 Ruta:(<HTMLInputElement>document.getElementById('txtRuta')).value,
+                 TipoEmision:(<HTMLInputElement>document.getElementById('txtTipoEmicion')).value,
+                 TotalProductos:this.TOTAL_PRODUCTOS,
+                 listaDetalles:this.listaDetalles,
+                 Usuario:this.usuarioUso
+ 
+             };
+             this.guiasSer.guardarGuia(guia, this.usuarioUso.token).subscribe(
+                 res => {
+                     console.log(res);
+                     if (res.estado) {
+                         var re = this.encriSer.desencriptar(res.res, false);
+                         console.log(re);
+                         this.clkLimpiar();
+                         $('#ModalBioseguridad').modal('hide');
+                        
+            
+                     }else{
+                         this.mesajeError('Error al guardar informacion...!!');
+                     }
+                 },
+                 err => {
+     
+                     console.log(err)
+                 }
+             );
+             
+ 
+ 
+        }else{
+            this.mesajeError('Confirme el cumplimiento de los protocolos de bioseguridad');
+        }
+ 
+     }
     changeValid(){
         var listaImput=  document.getElementsByClassName('form-control required');
         for (let index = 0; index < listaImput.length; index++) {
